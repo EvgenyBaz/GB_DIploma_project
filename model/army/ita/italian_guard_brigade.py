@@ -65,6 +65,7 @@ class ItalianGuardBrigade(Brigade):
         self.brigade_list_battalion_list.append(self.conscript_battalion_list())  # шестой батальон - варианты
         self.brigade_list_battalion_list.append(self.additional_regimental_artillery_list())  # дополнительная полковая арт рота - варианты
         self.brigade_list_battalion_list.append(self.additional_regimental_artillery_list())  # дополнительная полковая арт рота - варианты
+        self.brigade_list_battalion_list.append(self.additional_regimental_artillery_list())  # дополнительная полковая арт рота - варианты
         self.brigade_list_battalion_list.append(self.additional_cavalry_list())  # дополнительный полк кавалерии - варианты
         self.brigade_list_battalion_list.append(self.additional_cavalry_list())  # дополнительный полк кавалерии
         self.brigade_list_battalion_list.append(self.additional_foot_artillery_list())  # дополнительная легкая арт рота - варианты
@@ -119,7 +120,7 @@ class ItalianGuardBrigade(Brigade):
     def additional_regimental_artillery_list(self):
         return [
             Unit(),
-            RegimentalArtillerySection,
+            RegimentalArtillerySection(),
             RegimentalArtilleryBattery()
         ]
 

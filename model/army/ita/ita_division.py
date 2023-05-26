@@ -13,7 +13,7 @@ class ItaDivision:
             InfantryBrigade(),              #1
             InfantryBrigade(),              #2
             CavalryBrigade(),               #3
-            ItalianGuardBrigade(),         #4
+            ItalianGuardBrigade(),          #4
             # AllArtillery()                  #5
         ]
 
