@@ -3157,7 +3157,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         # запрашиваем и печатаем (если выбран) имя и стоимость бригадного командира
         if xBrgdCmndr.currentIndex() != 0:
-
+            self.print_line(pdf)
             pdf.set_font('FontNS', 'B', 10)
             pdf.cell(0, 8, f'{x_brigade_name}', new_x=XPos.LMARGIN)
             pdf.cell(0, 8, f'{xBrgdTotalCost.text()}', align=Align.R, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
