@@ -64,7 +64,7 @@ class InfantryBrigade(Brigade):
         self.brigade_list_battalion_list.append(self.light_battalion_list())  # третий батальон - варианты
         self.brigade_list_battalion_list.append(self.light_battalion_list())  # четвертый батальон - варианты
 
-        self.brigade_list_battalion_list.append(self.additional_battalion_list())  # дополнительный батальон - варианты
+        # self.brigade_list_battalion_list.append(self.additional_battalion_list())  # дополнительный батальон - варианты
 
 
         # возможные бонусы для батальонов в бригаде

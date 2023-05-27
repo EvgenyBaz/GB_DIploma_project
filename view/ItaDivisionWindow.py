@@ -18,7 +18,7 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
         self.setupUi(self)
         self.error_message = MessageWindow()
 
-        # self.actionSave.triggered.connect(self.saveFile)
+        self.actionSave.triggered.connect(self.saveFile)
         # self.actionExport_army_list_to_PDF.triggered.connect(self.exportToPDF)
 
         self.country = "Ita"  # определяем страну
@@ -212,11 +212,15 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
     def divisionTotalCostView(self):
 
           total_cost = int(self.generalCost.text())+int(self.aBrgdTotalCost.text())+int(self.bBrgdTotalCost.text())\
-                       +int(self.cBrgdTotalCost.text())+int(self.GrdBrgdTotalCost.text())+self.artillery_total_cost
+                       +int(self.cBrgdTotalCost.text())+int(self.GrdBrgdTotalCost.text())\
+                       +int(self.CvlryBrgdTotalCost.text())+self.artillery_total_cost
 
+          if total_cost > 1000:
+              self.divisionTotalCost.setStyleSheet("background-color : yellow ")
+          else:
+              self.divisionTotalCost.setStyleSheet("background-color : white ")
 
           self.artilleryBatteryVisible()
-
           self.divisionTotalCost.setText(str(total_cost))
 #---------------------------------------------------------------------------------------------------
     def artilleryBatteryVisible(self):
@@ -2254,486 +2258,480 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
                 result = 0
 
         return result
+#-----------------------------------------
+    def saveFile(self):
 
-#     def saveFile(self):
-#
-#         fileName, _= QFileDialog.getSaveFileName(
-#             parent=self,
-#             caption='Select a data file',
-#             filter='Data File (*.dat)'
-#         )
-#
-#         if fileName:
-#             try:
-#                 with open(fileName, 'w') as fileToSave:
-#                     fileToSave.write(self.dataCollectToSave())
-#             except:
-#                 self.error_message.show()
-#         else:
-#             pass
-#
-#     def dataCollectToSave(self):
-#         dataSet= {"Side": self.country,
-#                   "Division general": self.generalName.currentIndex()}
-#         if self.aBrgdCmndr.currentIndex() != 0:
-#             dataSet["1st Inf Brigade Commander"] = self.aBrgdCmndr.currentIndex()
-#             dataSet["1st Inf Brigade 1st bttln"] = [self.aBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.a_brigade_number)]
-#             dataSet["1st Inf Brigade 2nd bttln"] = [self.aBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.a_brigade_number)]
-#             dataSet["1st Inf Brigade 3rd bttln"] = [self.aBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.a_brigade_number)]
-#             dataSet["1st Inf Brigade 4th bttln"] = [self.aBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.a_brigade_number)]
-#             dataSet["1st Inf Brigade add bttln"] = [self.aBrgdAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.a_brigade_number)]
-#             dataSet["1st Inf Brigade jgr add bttln"] = [self.aBrgdJgrAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.a_brigade_number)]
-#         if self.bBrgdCmndr.currentIndex() != 0:
-#             dataSet["2nd Inf Brigade Commander"] = self.bBrgdCmndr.currentIndex()
-#             dataSet["2nd Inf Brigade 1st bttln"] = [self.bBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.b_brigade_number)]
-#             dataSet["2nd Inf Brigade 2nd bttln"] = [self.bBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.b_brigade_number)]
-#             dataSet["2nd Inf Brigade 3rd bttln"] = [self.bBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.b_brigade_number)]
-#             dataSet["2nd Inf Brigade 4th bttln"] = [self.bBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.b_brigade_number)]
-#             dataSet["2nd Inf Brigade add bttln"] = [self.bBrgdAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.b_brigade_number)]
-#             dataSet["2nd Inf Brigade jgr add bttln"] = [self.bBrgdJgrAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.b_brigade_number)]
-#         if self.cBrgdCmndr.currentIndex() != 0:
-#             dataSet["3rd Inf Brigade Commander"] = self.cBrgdCmndr.currentIndex()
-#             dataSet["3rd Inf Brigade 1st bttln"] = [self.cBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.c_brigade_number)]
-#             dataSet["3rd Inf Brigade 2nd bttln"] = [self.cBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.c_brigade_number)]
-#             dataSet["3rd Inf Brigade 3rd bttln"] = [self.cBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.c_brigade_number)]
-#             dataSet["3rd Inf Brigade 4th bttln"] = [self.cBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.c_brigade_number)]
-#             dataSet["3rd Inf Brigade add bttln"] = [self.cBrgdAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.c_brigade_number)]
-#             dataSet["3rd Inf Brigade jgr add bttln"] = [self.cBrgdJgrAdditionalBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.c_brigade_number)]
-#
-#         if self.JgrBrgdCmndr.currentIndex() != 0:
-#             dataSet["Jgr Brigade Commander"] = self.JgrBrgdCmndr.currentIndex()
-#             dataSet["Jgr Brigade 1st bttln"] = [self.JgrBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade 2nd bttln"] = [self.JgrBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade 3rd bttln"] = [self.JgrBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade 4th bttln"] = [self.JgrBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade 5th bttln"] = [self.JgrBrgdFifthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade 6th bttln"] = [self.JgrBrgdSixthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade add1 bttln"] = [self.JgrBrgdAdditional1Battalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(6, self.jgr_brigade_number)]
-#             dataSet["Jgr Brigade add2 bttln"] = [self.JgrBrgdAdditional2Battalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(7, self.jgr_brigade_number)]
-#
-#         if self.CombGrndrBrgdCmndr.currentIndex() != 0:
-#             dataSet["Comb Grndr Brigade Commander"] = self.CombGrndrBrgdCmndr.currentIndex()
-#             dataSet["Comb Grndr Brigade 1st bttln"] = [self.CombGrndrBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 2nd bttln"] = [self.CombGrndrBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 3rd bttln"] = [self.CombGrndrBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 4th bttln"] = [self.CombGrndrBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 5th bttln"] = [self.CombGrndrBrgdFifthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 6th bttln"] = [self.CombGrndrBrgdSixthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.comb_grndr_brigade_number)]
-#             dataSet["Comb Grndr Brigade 7th bttln"] = [self.CombGrndrBrgdSeventhBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(6, self.comb_grndr_brigade_number)]
-#
-#         if self.GrndrBrgdCmndr.currentIndex() != 0:
-#             dataSet["Grndr Brigade Commander"] = self.GrndrBrgdCmndr.currentIndex()
-#             dataSet["Grndr Brigade 1st bttln"] = [self.GrndrBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.grndr_brigade_number)]
-#             dataSet["Grndr Brigade 2nd bttln"] = [self.GrndrBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.grndr_brigade_number)]
-#             dataSet["Grndr Brigade 3rd bttln"] = [self.GrndrBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.grndr_brigade_number)]
-#             dataSet["Grndr Brigade 4th bttln"] = [self.GrndrBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.grndr_brigade_number)]
-#
-#         if self.LCvlryBrgdCmndr.currentIndex() != 0:
-#             dataSet["L Cvlry Brigade Commander"] = self.LCvlryBrgdCmndr.currentIndex()
-#             dataSet["L Cvlry Brigade 1st rgmnt"] = [self.LCvlryBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.light_cvlry_brigade_number)]
-#             dataSet["L Cvlry Brigade 2nd rgmnt"] = [self.LCvlryBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.light_cvlry_brigade_number)]
-#             dataSet["L Cvlry Brigade 3rd rgmnt"] = [self.LCvlryBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.light_cvlry_brigade_number)]
-#
-#         if self.HCvlryBrgdCmndr.currentIndex() != 0:
-#             dataSet["H Cvlry Brigade Commander"] = self.HCvlryBrgdCmndr.currentIndex()
-#             dataSet["H Cvlry Brigade 1st rgmnt"] = [self.HCvlryBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.heavy_cvlry_brigade_number)]
-#             dataSet["H Cvlry Brigade 2nd rgmnt"] = [self.HCvlryBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.heavy_cvlry_brigade_number)]
-#             dataSet["H Cvlry Brigade 3rd rgmnt"] = [self.HCvlryBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.heavy_cvlry_brigade_number)]
-#
-#         if self.CossackBrgdCmndr.currentIndex() != 0:
-#             dataSet["Cossack Brigade Commander"] = self.CossackBrgdCmndr.currentIndex()
-#             dataSet["Cossack Brigade 1st rgmnt"] = [self.CossackBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.cossack_brigade_number)]
-#             dataSet["Cossack Brigade 2nd rgmnt"] = [self.CossackBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.cossack_brigade_number)]
-#             dataSet["Cossack Brigade 3rd rgmnt"] = [self.CossackBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.cossack_brigade_number)]
-#             dataSet["Cossack Brigade 4th rgmnt"] = [self.CossackBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.cossack_brigade_number)]
-#             dataSet["Cossack Brigade 5th rgmnt"] = [self.CossackBrgdFifthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.cossack_brigade_number)]
-#             dataSet["Cossack Brigade 6th rgmnt"] = [self.CossackBrgdSixthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.cossack_brigade_number)]
-#
-#         if self.ImpGrdInfBrgdCmndr.currentIndex() != 0:
-#             dataSet["Imp Grd Inf Brigade Commander"] = self.ImpGrdInfBrgdCmndr.currentIndex()
-#             dataSet["Imp Grd Inf Brigade 1st bttln"] = [self.ImpGrdInfBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade 2nd bttln"] = [self.ImpGrdInfBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade 3rd bttln"] = [self.ImpGrdInfBrgdThirdBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(2, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade 4th bttln"] = [self.ImpGrdInfBrgdFourthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(3, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade 5th bttln"] = [self.ImpGrdInfBrgdFifthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(4, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade 6th bttln"] = [self.ImpGrdInfBrgdSixthBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(5, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade add1 bttln"] = [self.ImpGrdInfBrgdAdditional1Battalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(6, self.imp_grd_inf_brigade_number)]
-#             dataSet["Imp Grd Inf Brigade add2 bttln"] = [self.ImpGrdInfBrgdAdditional2Battalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(7, self.imp_grd_inf_brigade_number)]
-#
-#         if self.ImpGrdLCavBrgdCmndr.currentIndex() != 0:
-#             dataSet["Imp Grd L Cav Brigade Commander"] = self.ImpGrdLCavBrgdCmndr.currentIndex()
-#             dataSet["Imp Grd L Cav Brigade 1st rgmnt"] = [self.ImpGrdLCavBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.imp_grd_l_cav_brigade_number)]
-#             dataSet["Imp Grd L Cav Brigade 2nd rgmnt"] = [self.ImpGrdLCavBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.imp_grd_l_cav_brigade_number)]
-#
-#         if self.ImpGrdHCavBrgdCmndr.currentIndex() != 0:
-#             dataSet["Imp Grd H Cav Brigade Commander"] = self.ImpGrdHCavBrgdCmndr.currentIndex()
-#             dataSet["Imp Grd H Cav Brigade 1st rgmnt"] = [self.ImpGrdHCavBrgdFirstBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(0, self.imp_grd_h_cav_brigade_number)]
-#             dataSet["Imp Grd H Cav Brigade 2nd rgmnt"] = [self.ImpGrdHCavBrgdSecondBattalion.currentIndex(),
-#                                                     self.presenter.BrigadeBttlnBonusList(1, self.imp_grd_h_cav_brigade_number)]
-#
-#         dataSet["Light Artillery Battery 1"] = [self.LightArtilleryBattery1.currentIndex()]
-#         dataSet["Light Artillery Battery 2"] = [self.LightArtilleryBattery2.currentIndex()]
-#         dataSet["Light Artillery Battery 3"] = [self.LightArtilleryBattery3.currentIndex()]
-#         dataSet["Light Artillery Battery 4"] = [self.LightArtilleryBattery4.currentIndex()]
-#         dataSet["Light Artillery Battery 5"] = [self.LightArtilleryBattery5.currentIndex()]
-#         dataSet["Light Artillery Battery 6"] = [self.LightArtilleryBattery6.currentIndex()]
-#
-#         dataSet["Heavy Artillery Battery 1"] = [self.HeavyArtilleryBattery1.currentIndex()]
-#         dataSet["Heavy Artillery Battery 2"] = [self.HeavyArtilleryBattery2.currentIndex()]
-#         dataSet["Heavy Artillery Battery 3"] = [self.HeavyArtilleryBattery3.currentIndex()]
-#         dataSet["Heavy Artillery Battery 4"] = [self.HeavyArtilleryBattery4.currentIndex()]
-#
-#         dataSet["Unicorn Battery 1"] = [self.UnicornBattery1.currentIndex()]
-#         dataSet["Unicorn Battery 2"] = [self.UnicornBattery2.currentIndex()]
-#         dataSet["Unicorn Battery 3"] = [self.UnicornBattery3.currentIndex()]
-#         dataSet["Unicorn Battery 4"] = [self.UnicornBattery4.currentIndex()]
-#         dataSet["Unicorn Battery 5"] = [self.UnicornBattery5.currentIndex()]
-#         dataSet["Unicorn Battery 6"] = [self.UnicornBattery6.currentIndex()]
-#
-#         dataSet["Horse Artillery Battery 1"] = [self.HorseArtilleryBattery1.currentIndex()]
-#         dataSet["Horse Artillery Battery 2"] = [self.HorseArtilleryBattery2.currentIndex()]
-#         dataSet["Horse Artillery Battery 3"] = [self.HorseArtilleryBattery3.currentIndex()]
-#
-#         dataSet["EarthWorks 1"] = [self.EarthWorks1.currentIndex()]
-#         dataSet["EarthWorks 2"] = [self.EarthWorks2.currentIndex()]
-#
-#
-#
-#         json_object = json.dumps(dataSet, indent=4)
-#         return json_object
-#
-#     def loadData(self, data):
-#
-#         self.generalName.setCurrentIndex(data["Division general"])
-#
-#         if "1st Inf Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade 1st bttln", 0, data["1st Inf Brigade 1st bttln"][0]+1, self.a_brigade_number)
-#             # устанавливаеем командитра бригады
-#             self.aBrgdCmndr.setCurrentIndex(data["1st Inf Brigade Commander"])
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd bttln", 1, data["1st Inf Brigade 2nd bttln"][0], self.a_brigade_number)
-#             # устанавливаеем батальон
-#             self.aBrgdSecondBattalion.setCurrentIndex(data["1st Inf Brigade 2nd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade 3rd bttln", 2, data["1st Inf Brigade 3rd bttln"][0], self.a_brigade_number)
-#             self.aBrgdThirdBattalion.setCurrentIndex(data["1st Inf Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade 4th bttln", 3, data["1st Inf Brigade 4th bttln"][0], self.a_brigade_number)
-#             self.aBrgdFourthBattalion.setCurrentIndex(data["1st Inf Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade add bttln", 4, data["1st Inf Brigade add bttln"][0], self.a_brigade_number)
-#             self.aBrgdAdditionalBattalion.setCurrentIndex(data["1st Inf Brigade add bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "1st Inf Brigade jgr add bttln", 5, data["1st Inf Brigade jgr add bttln"][0], self.a_brigade_number)
-#             self.aBrgdJgrAdditionalBattalion.setCurrentIndex(data["1st Inf Brigade jgr add bttln"][0])
-#
-#         if "2nd Inf Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st bttln", 0, data["2nd Inf Brigade 1st bttln"][0]+1, self.b_brigade_number)
-#             self.bBrgdCmndr.setCurrentIndex(data["2nd Inf Brigade Commander"])
-#
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd bttln", 1, data["2nd Inf Brigade 2nd bttln"][0], self.b_brigade_number)
-#             self.bBrgdSecondBattalion.setCurrentIndex(data["2nd Inf Brigade 2nd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade 3rd bttln", 2, data["2nd Inf Brigade 3rd bttln"][0], self.b_brigade_number)
-#             self.bBrgdThirdBattalion.setCurrentIndex(data["2nd Inf Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade 4th bttln", 3, data["2nd Inf Brigade 4th bttln"][0], self.b_brigade_number)
-#             self.bBrgdFourthBattalion.setCurrentIndex(data["2nd Inf Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade add bttln", 4, data["2nd Inf Brigade add bttln"][0], self.b_brigade_number)
-#             self.bBrgdAdditionalBattalion.setCurrentIndex(data["2nd Inf Brigade add bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "2nd Inf Brigade jgr add bttln", 5, data["2nd Inf Brigade jgr add bttln"][0], self.b_brigade_number)
-#             self.bBrgdJgrAdditionalBattalion.setCurrentIndex(data["2nd Inf Brigade jgr add bttln"][0])
-#
-#         if "3rd Inf Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade 1st bttln", 0, data["3rd Inf Brigade 1st bttln"][0]+1, self.c_brigade_number)
-#             self.cBrgdCmndr.setCurrentIndex(data["3rd Inf Brigade Commander"])
-#
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade 2nd bttln", 1, data["3rd Inf Brigade 2nd bttln"][0], self.c_brigade_number)
-#             self.cBrgdSecondBattalion.setCurrentIndex(data["3rd Inf Brigade 2nd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade 3rd bttln", 2, data["3rd Inf Brigade 3rd bttln"][0], self.c_brigade_number)
-#             self.cBrgdThirdBattalion.setCurrentIndex(data["3rd Inf Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade 4th bttln", 3, data["3rd Inf Brigade 4th bttln"][0], self.c_brigade_number)
-#             self.cBrgdFourthBattalion.setCurrentIndex(data["3rd Inf Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade add bttln", 4, data["3rd Inf Brigade add bttln"][0], self.c_brigade_number)
-#             self.cBrgdAdditionalBattalion.setCurrentIndex(data["3rd Inf Brigade add bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "3rd Inf Brigade jgr add bttln", 5, data["3rd Inf Brigade jgr add bttln"][0], self.c_brigade_number)
-#             self.cBrgdJgrAdditionalBattalion.setCurrentIndex(data["3rd Inf Brigade jgr add bttln"][0])
-#
-#         if "Jgr Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 1st bttln", 0, data["Jgr Brigade 1st bttln"][0]+1, self.jgr_brigade_number)
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 2nd bttln", 1, data["Jgr Brigade 2nd bttln"][0]+1, self.jgr_brigade_number)
-#
-#             self.JgrBrgdCmndr.setCurrentIndex(data["Jgr Brigade Commander"])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 3rd bttln", 2, data["Jgr Brigade 3rd bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdThirdBattalion.setCurrentIndex(data["Jgr Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 4th bttln", 3, data["Jgr Brigade 4th bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdFourthBattalion.setCurrentIndex(data["Jgr Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 5th bttln", 4, data["Jgr Brigade 5th bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdFifthBattalion.setCurrentIndex(data["Jgr Brigade 5th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade 6th bttln", 5, data["Jgr Brigade 6th bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdSixthBattalion.setCurrentIndex(data["Jgr Brigade 6th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade add1 bttln", 6, data["Jgr Brigade add1 bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdAdditional1Battalion.setCurrentIndex(data["Jgr Brigade add1 bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Jgr Brigade add2 bttln", 7, data["Jgr Brigade add2 bttln"][0], self.jgr_brigade_number)
-#             self.JgrBrgdAdditional2Battalion.setCurrentIndex(data["Jgr Brigade add2 bttln"][0])
-#
-#         if "Comb Grndr Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 1st bttln", 0, data["Comb Grndr Brigade 1st bttln"][0]+1, self.comb_grndr_brigade_number)
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 2nd bttln", 1, data["Comb Grndr Brigade 2nd bttln"][0]+1, self.comb_grndr_brigade_number)
-#
-#             self.CombGrndrBrgdCmndr.setCurrentIndex(data["Comb Grndr Brigade Commander"])
-#
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 3rd bttln", 2, data["Comb Grndr Brigade 3rd bttln"][0], self.comb_grndr_brigade_number)
-#             self.CombGrndrBrgdThirdBattalion.setCurrentIndex(data["Comb Grndr Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 4th bttln", 3, data["Comb Grndr Brigade 4th bttln"][0], self.comb_grndr_brigade_number)
-#             self.CombGrndrBrgdFourthBattalion.setCurrentIndex(data["Comb Grndr Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 5th bttln", 4, data["Comb Grndr Brigade 5th bttln"][0], self.comb_grndr_brigade_number)
-#             self.CombGrndrBrgdFifthBattalion.setCurrentIndex(data["Comb Grndr Brigade 5th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 6th bttln", 5, data["Comb Grndr Brigade 6th bttln"][0], self.comb_grndr_brigade_number)
-#             self.CombGrndrBrgdSixthBattalion.setCurrentIndex(data["Comb Grndr Brigade 6th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Comb Grndr Brigade 7th bttln", 6, data["Comb Grndr Brigade 7th bttln"][0], self.comb_grndr_brigade_number)
-#             self.CombGrndrBrgdSeventhBattalion.setCurrentIndex(data["Comb Grndr Brigade 7th bttln"][0])
-#
-#         if "Grndr Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Grndr Brigade 1st bttln", 0, data["Grndr Brigade 1st bttln"][0]+1, self.grndr_brigade_number)
-#             self.GrndrBrgdCmndr.setCurrentIndex(data["Grndr Brigade Commander"])
-#
-#             self.load_procedure_set_bonuses(data, "Grndr Brigade 2nd bttln", 1, data["Grndr Brigade 2nd bttln"][0], self.grndr_brigade_number)
-#             self.GrndrBrgdSecondBattalion.setCurrentIndex(data["Grndr Brigade 2nd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Grndr Brigade 3rd bttln", 2, data["Grndr Brigade 3rd bttln"][0], self.grndr_brigade_number)
-#             self.GrndrBrgdThirdBattalion.setCurrentIndex(data["Grndr Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Grndr Brigade 4th bttln", 3, data["Grndr Brigade 4th bttln"][0], self.grndr_brigade_number)
-#             self.GrndrBrgdFourthBattalion.setCurrentIndex(data["Grndr Brigade 4th bttln"][0])
-#
-#         if "L Cvlry Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "L Cvlry Brigade 1st rgmnt", 0, data["L Cvlry Brigade 1st rgmnt"][0]+1,self.light_cvlry_brigade_number)
-#             self.LCvlryBrgdCmndr.setCurrentIndex(data["L Cvlry Brigade Commander"])
-#             self.LCvlryBrgdFirstBattalion.setCurrentIndex(data["L Cvlry Brigade 1st rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "L Cvlry Brigade 2nd rgmnt", 1, data["L Cvlry Brigade 2nd rgmnt"][0], self.light_cvlry_brigade_number)
-#             self.LCvlryBrgdSecondBattalion.setCurrentIndex(data["L Cvlry Brigade 2nd rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "L Cvlry Brigade 3rd rgmnt", 2, data["L Cvlry Brigade 3rd rgmnt"][0], self.light_cvlry_brigade_number)
-#             self.LCvlryBrgdThirdBattalion.setCurrentIndex(data["L Cvlry Brigade 3rd rgmnt"][0])
-#
-#         if "H Cvlry Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "H Cvlry Brigade 1st rgmnt", 0, data["H Cvlry Brigade 1st rgmnt"][0]+1, self.heavy_cvlry_brigade_number)
-#             self.HCvlryBrgdCmndr.setCurrentIndex(data["H Cvlry Brigade Commander"])
-#             self.HCvlryBrgdFirstBattalion.setCurrentIndex(data["H Cvlry Brigade 1st rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "H Cvlry Brigade 2nd rgmnt", 1, data["H Cvlry Brigade 2nd rgmnt"][0], self.heavy_cvlry_brigade_number)
-#             self.HCvlryBrgdSecondBattalion.setCurrentIndex(data["H Cvlry Brigade 2nd rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "H Cvlry Brigade 3rd rgmnt", 2, data["H Cvlry Brigade 3rd rgmnt"][0], self.heavy_cvlry_brigade_number)
-#             self.HCvlryBrgdThirdBattalion.setCurrentIndex(data["H Cvlry Brigade 3rd rgmnt"][0])
-#
-#         if "Cossack Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 1st rgmnt", 0, data["Cossack Brigade 1st rgmnt"][0]+1, self.cossack_brigade_number)
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 2nd rgmnt", 1, data["Cossack Brigade 2nd rgmnt"][0]+1, self.cossack_brigade_number)
-#             self.CossackBrgdCmndr.setCurrentIndex(data["Cossack Brigade Commander"])
-#             self.CossackBrgdFirstBattalion.setCurrentIndex(data["Cossack Brigade 1st rgmnt"][0])
-#             self.CossackBrgdSecondBattalion.setCurrentIndex(data["Cossack Brigade 2nd rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 3rd rgmnt", 2, data["Cossack Brigade 3rd rgmnt"][0], self.cossack_brigade_number)
-#             self.CossackBrgdThirdBattalion.setCurrentIndex(data["Cossack Brigade 3rd rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 4th rgmnt", 3, data["Cossack Brigade 4th rgmnt"][0], self.cossack_brigade_number)
-#             self.CossackBrgdFourthBattalion.setCurrentIndex(data["Cossack Brigade 4th rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 5th rgmnt", 4, data["Cossack Brigade 5th rgmnt"][0], self.cossack_brigade_number)
-#             self.CossackBrgdFifthBattalion.setCurrentIndex(data["Cossack Brigade 5th rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Cossack Brigade 6th rgmnt", 5, data["Cossack Brigade 6th rgmnt"][0], self.cossack_brigade_number)
-#             self.CossackBrgdSixthBattalion.setCurrentIndex(data["Cossack Brigade 6th rgmnt"][0])
-#
-#         if "Imp Grd Inf Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 1st bttln", 0, data["Imp Grd Inf Brigade 1st bttln"][0]+1, self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdCmndr.setCurrentIndex(data["Imp Grd Inf Brigade Commander"])
-#
-#             self.ImpGrdInfBrgdFirstBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 1st bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 2nd bttln", 1, data["Imp Grd Inf Brigade 2nd bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdSecondBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 2nd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 3rd bttln", 2, data["Imp Grd Inf Brigade 3rd bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdThirdBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 3rd bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 4th bttln", 3, data["Imp Grd Inf Brigade 4th bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdFourthBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 4th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 5th bttln", 4, data["Imp Grd Inf Brigade 5th bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdFifthBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 5th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade 6th bttln", 5, data["Imp Grd Inf Brigade 6th bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdSixthBattalion.setCurrentIndex(data["Imp Grd Inf Brigade 6th bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade add1 bttln", 6, data["Imp Grd Inf Brigade add1 bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdAdditional1Battalion.setCurrentIndex(data["Imp Grd Inf Brigade add1 bttln"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd Inf Brigade add2 bttln", 7, data["Imp Grd Inf Brigade add2 bttln"][0], self.imp_grd_inf_brigade_number)
-#             self.ImpGrdInfBrgdAdditional2Battalion.setCurrentIndex(data["Imp Grd Inf Brigade add2 bttln"][0])
-#
-#         if "Imp Grd L Cav Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Imp Grd L Cav Brigade 1st rgmnt", 0, data["Imp Grd L Cav Brigade 1st rgmnt"][0]+1, self.imp_grd_l_cav_brigade_number)
-#             self.ImpGrdLCavBrgdCmndr.setCurrentIndex(data["Imp Grd L Cav Brigade Commander"])
-#
-#             self.ImpGrdLCavBrgdFirstBattalion.setCurrentIndex(data["Imp Grd L Cav Brigade 1st rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd L Cav Brigade 2nd rgmnt", 1, data["Imp Grd L Cav Brigade 2nd rgmnt"][0], self.imp_grd_l_cav_brigade_number)
-#             self.ImpGrdLCavBrgdSecondBattalion.setCurrentIndex(data["Imp Grd L Cav Brigade 2nd rgmnt"][0])
-#
-#         if "Imp Grd H Cav Brigade Commander" in data.keys():
-#             # проверяем и устанавливаем бонусы батальона
-#             self.load_procedure_set_bonuses(data, "Imp Grd H Cav Brigade 1st rgmnt", 0, data["Imp Grd H Cav Brigade 1st rgmnt"][0]+1, self.imp_grd_h_cav_brigade_number)
-#             self.ImpGrdHCavBrgdCmndr.setCurrentIndex(data["Imp Grd H Cav Brigade Commander"])
-#
-#             self.ImpGrdHCavBrgdFirstBattalion.setCurrentIndex(data["Imp Grd H Cav Brigade 1st rgmnt"][0])
-#
-#             self.load_procedure_set_bonuses(data, "Imp Grd H Cav Brigade 2nd rgmnt", 1, data["Imp Grd H Cav Brigade 2nd rgmnt"][0], self.imp_grd_h_cav_brigade_number)
-#             self.ImpGrdHCavBrgdSecondBattalion.setCurrentIndex(data["Imp Grd H Cav Brigade 2nd rgmnt"][0])
-#
-#         self.LightArtilleryBattery1.setCurrentIndex(data["Light Artillery Battery 1"][0])
-#         self.LightArtilleryBattery2.setCurrentIndex(data["Light Artillery Battery 2"][0])
-#         self.LightArtilleryBattery3.setCurrentIndex(data["Light Artillery Battery 3"][0])
-#         self.LightArtilleryBattery4.setCurrentIndex(data["Light Artillery Battery 4"][0])
-#         self.LightArtilleryBattery5.setCurrentIndex(data["Light Artillery Battery 5"][0])
-#         self.LightArtilleryBattery6.setCurrentIndex(data["Light Artillery Battery 6"][0])
-#
-#         self.HeavyArtilleryBattery1.setCurrentIndex(data["Heavy Artillery Battery 1"][0])
-#         self.HeavyArtilleryBattery2.setCurrentIndex(data["Heavy Artillery Battery 2"][0])
-#         self.HeavyArtilleryBattery3.setCurrentIndex(data["Heavy Artillery Battery 3"][0])
-#         self.HeavyArtilleryBattery4.setCurrentIndex(data["Heavy Artillery Battery 4"][0])
-#
-#         self.UnicornBattery1.setCurrentIndex(data["Unicorn Battery 1"][0])
-#         self.UnicornBattery2.setCurrentIndex(data["Unicorn Battery 2"][0])
-#         self.UnicornBattery3.setCurrentIndex(data["Unicorn Battery 3"][0])
-#         self.UnicornBattery4.setCurrentIndex(data["Unicorn Battery 4"][0])
-#         self.UnicornBattery5.setCurrentIndex(data["Unicorn Battery 5"][0])
-#         self.UnicornBattery6.setCurrentIndex(data["Unicorn Battery 6"][0])
-#
-#         self.HorseArtilleryBattery1.setCurrentIndex(data["Horse Artillery Battery 1"][0])
-#         self.HorseArtilleryBattery2.setCurrentIndex(data["Horse Artillery Battery 2"][0])
-#         self.HorseArtilleryBattery3.setCurrentIndex(data["Horse Artillery Battery 3"][0])
-#
-#         self.EarthWorks1.setCurrentIndex(data["EarthWorks 1"][0])
-#         self.EarthWorks2.setCurrentIndex(data["EarthWorks 2"][0])
-#
-#
-#     def load_procedure_set_bonuses(self, data, bttln_name, place_in_br_list, order_in_bttln_list, brgd_number):
-#         for bonus_name, v in data[bttln_name][1].items():
-#             bonus_cost = 0
-#             for i in range(0, len(self.presenter.BrigadeBonusNameList(brgd_number))):
-#                 if bonus_name == self.presenter.BrigadeBonusNameList(brgd_number)[i]:
-#                     bonus_cost = self.presenter.BrigadeBonusCostList(brgd_number)[i]
-#             self.presenter.BrigadeBttlnListBonusAdd(bonus_name, place_in_br_list, order_in_bttln_list, brgd_number)
-#             self.presenter.BrigadeBttlnListBonusCostAdd(bonus_cost, place_in_br_list, order_in_bttln_list, brgd_number)
-#
-#     def exportToPDF(self):
-#
-#         fileName, _= QFileDialog.getSaveFileName(
-#             parent=self,
-#             caption='Select a pdf file',
-#             filter='Pdf File (*.pdf)'
-#         )
-#
-#         if fileName:
-#             try:
-#                 self.dataToSavePdf(fileName)
-#             except:
-#                 self.error_message.text("pdf export error")
-#                 self.error_message.show()
-#         else:
-#             pass
-#
+        fileName, _= QFileDialog.getSaveFileName(
+            parent=self,
+            caption='Select a data file',
+            filter='Data File (*.dat)'
+        )
+
+        if fileName:
+            try:
+                with open(fileName, 'w') as fileToSave:
+                    fileToSave.write(self.dataCollectToSave())
+            except:
+                self.error_message.show()
+        else:
+            pass
+#
+    def dataCollectToSave(self):
+        dataSet= {"Side": self.country,
+                  "Division general": self.generalName.currentIndex()}
+        if self.aBrgdCmndr.currentIndex() != 0:
+            dataSet["1st Inf Brigade Commander"] = self.aBrgdCmndr.currentIndex()
+            dataSet["1st Inf Brigade 1st Rgmnt"] = self.aBrgd1stRgmntChoice.currentIndex()
+            dataSet["1st Inf Brigade 1st Rgmnt 1st bttln"] = [self.aBrgd1stRgmntFirstBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(0, self.a_brigade_number)]
+            dataSet["1st Inf Brigade 1st Rgmnt 2nd bttln"] = [self.aBrgd1stRgmntSecondBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(1, self.a_brigade_number)]
+            dataSet["1st Inf Brigade 1st Rgmnt 3rd bttln"] = [self.aBrgd1stRgmntThirdBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(2, self.a_brigade_number)]
+            dataSet["1st Inf Brigade 1st Rgmnt 4th bttln"] = [self.aBrgd1stRgmntFourthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(3, self.a_brigade_number)]
+            dataSet["1st Inf Brigade 1st Rgmnt add artllry"] = [self.aBrgd1stRgmntAddBttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(8, self.a_brigade_number)]
+
+            if self.aBrgd2ndRgmntChoice.currentIndex() != 0:
+                dataSet["1st Inf Brigade 2nd Rgmnt"] = self.aBrgd2ndRgmntChoice.currentIndex()
+                dataSet["1st Inf Brigade 2nd Rgmnt 1st bttln"] = [self.aBrgd2ndRgmntFirstBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(4,
+                                                                                                       self.a_brigade_number)]
+                dataSet["1st Inf Brigade 2nd Rgmnt 2nd bttln"] = [self.aBrgd2ndRgmntSecondBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(5,
+                                                                                                       self.a_brigade_number)]
+                dataSet["1st Inf Brigade 2nd Rgmnt 3rd bttln"] = [self.aBrgd2ndRgmntThirdBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(6,
+                                                                                                       self.a_brigade_number)]
+                dataSet["1st Inf Brigade 2nd Rgmnt 4th bttln"] = [self.aBrgd2ndRgmntFourthBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(7,
+                                                                                                       self.a_brigade_number)]
+                dataSet["1st Inf Brigade 2nd Rgmnt add artllry"] = [self.aBrgd2ndRgmntAddBttry.currentIndex(),
+                                                                    self.presenter.BrigadeBttlnBonusList(9,
+                                                                                                         self.a_brigade_number)]
+        if self.bBrgdCmndr.currentIndex() != 0:
+            dataSet["2nd Inf Brigade Commander"] = self.bBrgdCmndr.currentIndex()
+            dataSet["2nd Inf Brigade 1st Rgmnt"] = self.bBrgd1stRgmntChoice.currentIndex()
+            dataSet["2nd Inf Brigade 1st Rgmnt 1st bttln"] = [self.bBrgd1stRgmntFirstBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(0, self.b_brigade_number)]
+            dataSet["2nd Inf Brigade 1st Rgmnt 2nd bttln"] = [self.bBrgd1stRgmntSecondBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(1, self.b_brigade_number)]
+            dataSet["2nd Inf Brigade 1st Rgmnt 3rd bttln"] = [self.bBrgd1stRgmntThirdBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(2, self.b_brigade_number)]
+            dataSet["2nd Inf Brigade 1st Rgmnt 4th bttln"] = [self.bBrgd1stRgmntFourthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(3, self.b_brigade_number)]
+            dataSet["2nd Inf Brigade 1st Rgmnt add artllry"] = [self.bBrgd1stRgmntAddBttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(8, self.b_brigade_number)]
+
+            if self.bBrgd2ndRgmntChoice.currentIndex() != 0:
+                dataSet["2nd Inf Brigade 2nd Rgmnt"] = self.bBrgd2ndRgmntChoice.currentIndex()
+                dataSet["2nd Inf Brigade 2nd Rgmnt 1st bttln"] = [self.bBrgd2ndRgmntFirstBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(4,
+                                                                                                       self.b_brigade_number)]
+                dataSet["2nd Inf Brigade 2nd Rgmnt 2nd bttln"] = [self.bBrgd2ndRgmntSecondBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(5,
+                                                                                                       self.b_brigade_number)]
+                dataSet["2nd Inf Brigade 2nd Rgmnt 3rd bttln"] = [self.bBrgd2ndRgmntThirdBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(6,
+                                                                                                       self.b_brigade_number)]
+                dataSet["2nd Inf Brigade 2nd Rgmnt 4th bttln"] = [self.bBrgd2ndRgmntFourthBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(7,
+                                                                                                       self.b_brigade_number)]
+                dataSet["2nd Inf Brigade 2nd Rgmnt add artllry"] = [self.bBrgd2ndRgmntAddBttry.currentIndex(),
+                                                                    self.presenter.BrigadeBttlnBonusList(9,
+                                                                                                         self.b_brigade_number)]
+
+        if self.cBrgdCmndr.currentIndex() != 0:
+            dataSet["3th Inf Brigade Commander"] = self.cBrgdCmndr.currentIndex()
+            dataSet["3th Inf Brigade 1st Rgmnt"] = self.cBrgd1stRgmntChoice.currentIndex()
+            dataSet["3th Inf Brigade 1st Rgmnt 1st bttln"] = [self.cBrgd1stRgmntFirstBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(0, self.c_brigade_number)]
+            dataSet["3th Inf Brigade 1st Rgmnt 2nd bttln"] = [self.cBrgd1stRgmntSecondBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(1, self.c_brigade_number)]
+            dataSet["3th Inf Brigade 1st Rgmnt 3rd bttln"] = [self.cBrgd1stRgmntThirdBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(2, self.c_brigade_number)]
+            dataSet["3th Inf Brigade 1st Rgmnt 4th bttln"] = [self.cBrgd1stRgmntFourthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(3, self.c_brigade_number)]
+            dataSet["3th Inf Brigade 1st Rgmnt add artllry"] = [self.cBrgd1stRgmntAddBttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(8, self.c_brigade_number)]
+
+            if self.cBrgd2ndRgmntChoice.currentIndex() != 0:
+                dataSet["3th Inf Brigade 2nd Rgmnt"] = self.cBrgd2ndRgmntChoice.currentIndex()
+                dataSet["3th Inf Brigade 2nd Rgmnt 1st bttln"] = [self.cBrgd2ndRgmntFirstBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(4,
+                                                                                                       self.c_brigade_number)]
+                dataSet["3th Inf Brigade 2nd Rgmnt 2nd bttln"] = [self.cBrgd2ndRgmntSecondBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(5,
+                                                                                                       self.c_brigade_number)]
+                dataSet["3th Inf Brigade 2nd Rgmnt 3rd bttln"] = [self.cBrgd2ndRgmntThirdBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(6,
+                                                                                                       self.c_brigade_number)]
+                dataSet["3th Inf Brigade 2nd Rgmnt 4th bttln"] = [self.cBrgd2ndRgmntFourthBattalion.currentIndex(),
+                                                                  self.presenter.BrigadeBttlnBonusList(7,
+                                                                                                       self.c_brigade_number)]
+                dataSet["3th Inf Brigade 2nd Rgmnt add artllry"] = [self.cBrgd2ndRgmntAddBttry.currentIndex(),
+                                                                    self.presenter.BrigadeBttlnBonusList(9,
+                                                                                                         self.c_brigade_number)]
+
+
+        if self.CvlryBrgdCmndr.currentIndex() != 0:
+            dataSet["Cvlry Brigade Commander"] = self.CvlryBrgdCmndr.currentIndex()
+            dataSet["Cvlry Brigade 1st Rgmnt"] = [self.CvlryBrgdFirstBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(0, self.cvlry_brigade_number)]
+            dataSet["Cvlry Brigade 2nd bttln"] = [self.CvlryBrgdSecondBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(1, self.cvlry_brigade_number)]
+
+
+        if self.GrdBrgdCmndr.currentIndex() != 0:
+            dataSet["Grd Brigade Commander"] = self.GrdBrgdCmndr.currentIndex()
+            dataSet["Grd Brigade 1st bttln"] = [self.GrdBrgdFirstBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(0, self.guard_brigade_number)]
+            dataSet["Grd Brigade 2nd bttln"] = [self.GrdBrgdSecondBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(1, self.guard_brigade_number)]
+            dataSet["Grd Brigade 3rd bttln"] = [self.GrdBrgdThirdBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(2, self.guard_brigade_number)]
+            dataSet["Grd Brigade 4th bttln"] = [self.GrdBrgdFourthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(3, self.guard_brigade_number)]
+            dataSet["Grd Brigade 5th bttln"] = [self.GrdBrgdFifthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(4, self.guard_brigade_number)]
+            dataSet["Grd Brigade 6th bttln"] = [self.GrdBrgdSixthBattalion.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(5, self.guard_brigade_number)]
+            dataSet["Grd Brigade rgmnt artllry1"] = [self.GrdBrgdAdditional1Bttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(6, self.guard_brigade_number)]
+            dataSet["Grd Brigade rgmnt artllry2"] = [self.GrdBrgdAdditional2Bttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(7, self.guard_brigade_number)]
+            dataSet["Grd Brigade rgmnt artllry3"] = [self.GrdBrgdAdditional3Bttry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(8, self.guard_brigade_number)]
+            dataSet["Grd Brigade add1 cvlry"] = [self.GrdBrgdAdditional1Cvlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(9, self.guard_brigade_number)]
+            dataSet["Grd Brigade add2 cvlry"] = [self.GrdBrgdAdditional1Cvlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(10, self.guard_brigade_number)]
+            dataSet["Grd Brigade add1 artllry"] = [self.GrdBrgdAdditional1Artlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(11, self.guard_brigade_number)]
+            dataSet["Grd Brigade add2 artllry"] = [self.GrdBrgdAdditional2Artlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(12, self.guard_brigade_number)]
+            dataSet["Grd Brigade add1 h artllry"] = [self.GrdBrgdAdditional1HrsArtlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(13, self.guard_brigade_number)]
+            dataSet["Grd Brigade add2 h artllry"] = [self.GrdBrgdAdditional2HrsArtlry.currentIndex(),
+                                                    self.presenter.BrigadeBttlnBonusList(14, self.guard_brigade_number)]
+
+        dataSet["Foot Artillery Battery 1"] = [self.FootArtilleryBattery1.currentIndex(), self.presenter.BrigadeBttlnBonusList(0, self.artillery_quasy_brigade_number)]
+        dataSet["Foot Artillery Battery 2"] = [self.FootArtilleryBattery2.currentIndex(), self.presenter.BrigadeBttlnBonusList(1, self.artillery_quasy_brigade_number)]
+        dataSet["Foot Artillery Battery 3"] = [self.FootArtilleryBattery3.currentIndex(), self.presenter.BrigadeBttlnBonusList(2, self.artillery_quasy_brigade_number)]
+
+        dataSet["Horse Artillery Battery 1"] = [self.HorseArtilleryBattery1.currentIndex()]
+        dataSet["Horse Artillery Battery 2"] = [self.HorseArtilleryBattery2.currentIndex()]
+        dataSet["Horse Artillery Battery 3"] = [self.HorseArtilleryBattery3.currentIndex()]
+
+        dataSet["Heavy Artillery Battery 1"] = [self.HeavyArtilleryBattery1.currentIndex(), self.presenter.BrigadeBttlnBonusList(6, self.artillery_quasy_brigade_number)]
+        dataSet["Heavy Artillery Battery 2"] = [self.HeavyArtilleryBattery2.currentIndex(), self.presenter.BrigadeBttlnBonusList(7, self.artillery_quasy_brigade_number)]
+        dataSet["Heavy Artillery Battery 3"] = [self.HeavyArtilleryBattery3.currentIndex(), self.presenter.BrigadeBttlnBonusList(8, self.artillery_quasy_brigade_number)]
+#
+
+        json_object = json.dumps(dataSet, indent=4)
+        return json_object
+#
+    def loadData(self, data):
+
+        self.generalName.setCurrentIndex(data["Division general"])
+#
+        if "1st Inf Brigade Commander" in data.keys():
+
+            bttln_order_shift = 0
+            if data["1st Inf Brigade 1st Rgmnt"]==1:
+                bttln_order_shift = 10
+
+            # проверяем и устанавливаем бонусы батальона
+            self.load_procedure_set_bonuses(data,"1st Inf Brigade 1st Rgmnt 1st bttln", 0 + bttln_order_shift, data["1st Inf Brigade 1st Rgmnt 1st bttln"][0]+1, self.a_brigade_number)
+            # устанавливаеем тип полка
+            self.aBrgdCmndr.setCurrentIndex(data["1st Inf Brigade Commander"])
+            self.aBrgd1stRgmntChoice.setCurrentIndex(data["1st Inf Brigade 1st Rgmnt"])
+
+            # проверяем и устанавливаем бонусы батальона
+            self.load_procedure_set_bonuses(data, "1st Inf Brigade 1st Rgmnt 2nd bttln", 1 + bttln_order_shift, data["1st Inf Brigade 1st Rgmnt 2nd bttln"][0], self.a_brigade_number)
+            # устанавливаеем батальон
+            self.aBrgd1stRgmntSecondBattalion.setCurrentIndex(data["1st Inf Brigade 1st Rgmnt 2nd bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "1st Inf Brigade 1st Rgmnt 3rd bttln", 2 + bttln_order_shift, data["1st Inf Brigade 1st Rgmnt 3rd bttln"][0], self.a_brigade_number)
+            self.aBrgd1stRgmntThirdBattalion.setCurrentIndex(data["1st Inf Brigade 1st Rgmnt 3rd bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "1st Inf Brigade 1st Rgmnt 4th bttln", 3 + bttln_order_shift, data["1st Inf Brigade 1st Rgmnt 4th bttln"][0], self.a_brigade_number)
+            self.aBrgd1stRgmntFourthBattalion.setCurrentIndex(data["1st Inf Brigade 1st Rgmnt 4th bttln"][0])
+#
+            self.load_procedure_set_bonuses(data, "1st Inf Brigade 1st Rgmnt add artllry", 8, data["1st Inf Brigade 1st Rgmnt add artllry"][0], self.a_brigade_number)
+            self.aBrgd1stRgmntAddBttry.setCurrentIndex(data["1st Inf Brigade 1st Rgmnt add artllry"][0])
+
+            if "1st Inf Brigade 2nd Rgmnt" in data.keys():
+                bttln_order_shift = 0
+                if data["1st Inf Brigade 2nd Rgmnt"] == 2:
+                    bttln_order_shift = 10
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd Rgmnt 1st bttln", 4 + bttln_order_shift, data["1st Inf Brigade 2nd Rgmnt 1st bttln"][0]+1, self.a_brigade_number)
+
+                # устанавливаеем тип полка
+                self.aBrgd2ndRgmntChoice.setCurrentIndex(data["1st Inf Brigade 2nd Rgmnt"])
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd Rgmnt 2nd bttln", 5 + bttln_order_shift,
+                                                data["1st Inf Brigade 2nd Rgmnt 2nd bttln"][0], self.a_brigade_number)
+                # устанавливаеем батальон
+                self.aBrgd2ndRgmntSecondBattalion.setCurrentIndex(data["1st Inf Brigade 2nd Rgmnt 2nd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd Rgmnt 3rd bttln", 6 + bttln_order_shift,
+                                                data["1st Inf Brigade 2nd Rgmnt 3rd bttln"][0], self.a_brigade_number)
+                self.aBrgd2ndRgmntThirdBattalion.setCurrentIndex(data["1st Inf Brigade 2nd Rgmnt 3rd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd Rgmnt 4th bttln", 7 + bttln_order_shift,
+                                                data["1st Inf Brigade 2nd Rgmnt 4th bttln"][0], self.a_brigade_number)
+                self.aBrgd2ndRgmntFourthBattalion.setCurrentIndex(data["1st Inf Brigade 2nd Rgmnt 4th bttln"][0])
+                #
+                self.load_procedure_set_bonuses(data, "1st Inf Brigade 2nd Rgmnt add artllry", 9,
+                                                data["1st Inf Brigade 2nd Rgmnt add artllry"][0], self.a_brigade_number)
+                self.aBrgd2ndRgmntAddBttry.setCurrentIndex(data["1st Inf Brigade 2nd Rgmnt add artllry"][0])
+
+            if "2nd Inf Brigade Commander" in data.keys():
+
+                bttln_order_shift = 0
+                if data["2nd Inf Brigade 1st Rgmnt"] == 1:
+                    bttln_order_shift = 10
+
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st Rgmnt 1st bttln", 0 + bttln_order_shift,
+                                                data["2nd Inf Brigade 1st Rgmnt 1st bttln"][0] + 1,
+                                                self.b_brigade_number)
+                # устанавливаеем тип полка
+                self.bBrgdCmndr.setCurrentIndex(data["2nd Inf Brigade Commander"])
+                self.bBrgd1stRgmntChoice.setCurrentIndex(data["2nd Inf Brigade 1st Rgmnt"])
+
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st Rgmnt 2nd bttln", 1 + bttln_order_shift,
+                                                data["2nd Inf Brigade 1st Rgmnt 2nd bttln"][0], self.b_brigade_number)
+                # устанавливаеем батальон
+                self.bBrgd1stRgmntSecondBattalion.setCurrentIndex(data["2nd Inf Brigade 1st Rgmnt 2nd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st Rgmnt 3rd bttln", 2 + bttln_order_shift,
+                                                data["2nd Inf Brigade 1st Rgmnt 3rd bttln"][0], self.b_brigade_number)
+                self.bBrgd1stRgmntThirdBattalion.setCurrentIndex(data["2nd Inf Brigade 1st Rgmnt 3rd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st Rgmnt 4th bttln", 3 + bttln_order_shift,
+                                                data["2nd Inf Brigade 1st Rgmnt 4th bttln"][0], self.b_brigade_number)
+                self.bBrgd1stRgmntFourthBattalion.setCurrentIndex(data["2nd Inf Brigade 1st Rgmnt 4th bttln"][0])
+                #
+                self.load_procedure_set_bonuses(data, "2nd Inf Brigade 1st Rgmnt add artllry", 8,
+                                                data["2nd Inf Brigade 1st Rgmnt add artllry"][0], self.b_brigade_number)
+                self.bBrgd1stRgmntAddBttry.setCurrentIndex(data["2nd Inf Brigade 1st Rgmnt add artllry"][0])
+
+                if "2nd Inf Brigade 2nd Rgmnt" in data.keys():
+                    bttln_order_shift = 0
+                    if data["2nd Inf Brigade 2nd Rgmnt"] == 2:
+                        bttln_order_shift = 10
+                    # проверяем и устанавливаем бонусы батальона
+                    self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd Rgmnt 1st bttln", 4 + bttln_order_shift,
+                                                    data["2nd Inf Brigade 2nd Rgmnt 1st bttln"][0] + 1,
+                                                    self.b_brigade_number)
+
+                    # устанавливаеем тип полка
+                    self.bBrgd2ndRgmntChoice.setCurrentIndex(data["2nd Inf Brigade 2nd Rgmnt"])
+                    # проверяем и устанавливаем бонусы батальона
+                    self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd Rgmnt 2nd bttln", 5 + bttln_order_shift,
+                                                    data["2nd Inf Brigade 2nd Rgmnt 2nd bttln"][0],
+                                                    self.b_brigade_number)
+                    # устанавливаеем батальон
+                    self.bBrgd2ndRgmntSecondBattalion.setCurrentIndex(data["2nd Inf Brigade 2nd Rgmnt 2nd bttln"][0])
+
+                    self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd Rgmnt 3rd bttln", 6 + bttln_order_shift,
+                                                    data["2nd Inf Brigade 2nd Rgmnt 3rd bttln"][0],
+                                                    self.b_brigade_number)
+                    self.bBrgd2ndRgmntThirdBattalion.setCurrentIndex(data["2nd Inf Brigade 2nd Rgmnt 3rd bttln"][0])
+
+                    self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd Rgmnt 4th bttln", 7 + bttln_order_shift,
+                                                    data["2nd Inf Brigade 2nd Rgmnt 4th bttln"][0],
+                                                    self.b_brigade_number)
+                    self.bBrgd2ndRgmntFourthBattalion.setCurrentIndex(data["2nd Inf Brigade 2nd Rgmnt 4th bttln"][0])
+                    #
+                    self.load_procedure_set_bonuses(data, "2nd Inf Brigade 2nd Rgmnt add artllry", 9,
+                                                    data["2nd Inf Brigade 2nd Rgmnt add artllry"][0],
+                                                    self.b_brigade_number)
+                    self.bBrgd2ndRgmntAddBttry.setCurrentIndex(data["2nd Inf Brigade 2nd Rgmnt add artllry"][0])
+
+            if "3th Inf Brigade Commander" in data.keys():
+
+                bttln_order_shift = 0
+                if data["3th Inf Brigade 1st Rgmnt"] == 1:
+                    bttln_order_shift = 10
+
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "3th Inf Brigade 1st Rgmnt 1st bttln", 0 + bttln_order_shift,
+                                                data["3th Inf Brigade 1st Rgmnt 1st bttln"][0] + 1,
+                                                self.c_brigade_number)
+                # устанавливаеем тип полка
+                self.cBrgdCmndr.setCurrentIndex(data["3th Inf Brigade Commander"])
+                self.cBrgd1stRgmntChoice.setCurrentIndex(data["3th Inf Brigade 1st Rgmnt"])
+
+                # проверяем и устанавливаем бонусы батальона
+                self.load_procedure_set_bonuses(data, "3th Inf Brigade 1st Rgmnt 2nd bttln", 1 + bttln_order_shift,
+                                                data["3th Inf Brigade 1st Rgmnt 2nd bttln"][0], self.c_brigade_number)
+                # устанавливаеем батальон
+                self.cBrgd1stRgmntSecondBattalion.setCurrentIndex(data["3th Inf Brigade 1st Rgmnt 2nd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "3th Inf Brigade 1st Rgmnt 3rd bttln", 2 + bttln_order_shift,
+                                                data["3th Inf Brigade 1st Rgmnt 3rd bttln"][0], self.c_brigade_number)
+                self.cBrgd1stRgmntThirdBattalion.setCurrentIndex(data["3th Inf Brigade 1st Rgmnt 3rd bttln"][0])
+
+                self.load_procedure_set_bonuses(data, "3th Inf Brigade 1st Rgmnt 4th bttln", 3 + bttln_order_shift,
+                                                data["3th Inf Brigade 1st Rgmnt 4th bttln"][0], self.c_brigade_number)
+                self.cBrgd1stRgmntFourthBattalion.setCurrentIndex(data["3th Inf Brigade 1st Rgmnt 4th bttln"][0])
+                #
+                self.load_procedure_set_bonuses(data, "3th Inf Brigade 1st Rgmnt add artllry", 8,
+                                                data["3th Inf Brigade 1st Rgmnt add artllry"][0], self.c_brigade_number)
+                self.cBrgd1stRgmntAddBttry.setCurrentIndex(data["3th Inf Brigade 1st Rgmnt add artllry"][0])
+
+                if "3th Inf Brigade 2nd Rgmnt" in data.keys():
+                    bttln_order_shift = 0
+                    if data["3th Inf Brigade 2nd Rgmnt"] == 2:
+                        bttln_order_shift = 10
+                    # проверяем и устанавливаем бонусы батальона
+                    self.load_procedure_set_bonuses(data, "3th Inf Brigade 2nd Rgmnt 1st bttln", 4 + bttln_order_shift,
+                                                    data["3th Inf Brigade 2nd Rgmnt 1st bttln"][0] + 1,
+                                                    self.c_brigade_number)
+
+                    # устанавливаеем тип полка
+                    self.cBrgd2ndRgmntChoice.setCurrentIndex(data["3th Inf Brigade 2nd Rgmnt"])
+                    # проверяем и устанавливаем бонусы батальона
+                    self.load_procedure_set_bonuses(data, "3th Inf Brigade 2nd Rgmnt 2nd bttln", 5 + bttln_order_shift,
+                                                    data["3th Inf Brigade 2nd Rgmnt 2nd bttln"][0],
+                                                    self.c_brigade_number)
+                    # устанавливаеем батальон
+                    self.cBrgd2ndRgmntSecondBattalion.setCurrentIndex(data["3th Inf Brigade 2nd Rgmnt 2nd bttln"][0])
+
+                    self.load_procedure_set_bonuses(data, "3th Inf Brigade 2nd Rgmnt 3rd bttln", 6 + bttln_order_shift,
+                                                    data["3th Inf Brigade 2nd Rgmnt 3rd bttln"][0],
+                                                    self.c_brigade_number)
+                    self.cBrgd2ndRgmntThirdBattalion.setCurrentIndex(data["3th Inf Brigade 2nd Rgmnt 3rd bttln"][0])
+
+                    self.load_procedure_set_bonuses(data, "3th Inf Brigade 2nd Rgmnt 4th bttln", 7 + bttln_order_shift,
+                                                    data["3th Inf Brigade 2nd Rgmnt 4th bttln"][0],
+                                                    self.c_brigade_number)
+                    self.cBrgd2ndRgmntFourthBattalion.setCurrentIndex(data["3th Inf Brigade 2nd Rgmnt 4th bttln"][0])
+                    #
+                    self.load_procedure_set_bonuses(data, "3th Inf Brigade 2nd Rgmnt add artllry", 9,
+                                                    data["3th Inf Brigade 2nd Rgmnt add artllry"][0],
+                                                    self.c_brigade_number)
+                    self.cBrgd2ndRgmntAddBttry.setCurrentIndex(data["3th Inf Brigade 2nd Rgmnt add artllry"][0])
+
+        if "Cvlry Brigade Commander" in data.keys():
+            # проверяем и устанавливаем бонусы батальона
+            self.load_procedure_set_bonuses(data, "Cvlry Brigade 1st Rgmnt", 0, data["Cvlry Brigade 1st Rgmnt"][0]+1, self.cvlry_brigade_number)
+
+            self.CvlryBrgdCmndr.setCurrentIndex(data["Cvlry Brigade Commander"])
+
+            self.load_procedure_set_bonuses(data, "Cvlry Brigade 2nd bttln", 1, data["Cvlry Brigade 2nd bttln"][0], self.cvlry_brigade_number)
+            self.CvlryBrgdSecondBattalion.setCurrentIndex(data["Cvlry Brigade 2nd bttln"][0])
+
+        if "Grd Brigade Commander" in data.keys():
+            self.GrdBrgdCmndr.setCurrentIndex(data["Grd Brigade Commander"])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 1st bttln", 0, data["Grd Brigade 1st bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdFirstBattalion.setCurrentIndex(data["Grd Brigade 1st bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 2nd bttln", 1, data["Grd Brigade 2nd bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdSecondBattalion.setCurrentIndex(data["Grd Brigade 2nd bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 3rd bttln", 2, data["Grd Brigade 3rd bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdThirdBattalion.setCurrentIndex(data["Grd Brigade 3rd bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 4th bttln", 3, data["Grd Brigade 4th bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdFourthBattalion.setCurrentIndex(data["Grd Brigade 4th bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 5th bttln", 4, data["Grd Brigade 5th bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdFifthBattalion.setCurrentIndex(data["Grd Brigade 5th bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade 6th bttln", 5, data["Grd Brigade 6th bttln"][0], self.guard_brigade_number)
+            self.GrdBrgdSixthBattalion.setCurrentIndex(data["Grd Brigade 6th bttln"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade rgmnt artllry1", 6, data["Grd Brigade rgmnt artllry1"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional1Bttry.setCurrentIndex(data["Grd Brigade rgmnt artllry1"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade rgmnt artllry2", 7, data["Grd Brigade rgmnt artllry2"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional2Bttry.setCurrentIndex(data["Grd Brigade rgmnt artllry2"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade rgmnt artllry3", 8, data["Grd Brigade rgmnt artllry3"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional3Bttry.setCurrentIndex(data["Grd Brigade rgmnt artllry3"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add1 cvlry", 9, data["Grd Brigade add1 cvlry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional1Cvlry.setCurrentIndex(data["Grd Brigade add1 cvlry"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add2 cvlry", 10, data["Grd Brigade add2 cvlry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional2Cvlry.setCurrentIndex(data["Grd Brigade add2 cvlry"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add1 artllry", 11, data["Grd Brigade add1 artllry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional1Artlry.setCurrentIndex(data["Grd Brigade add1 artllry"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add2 artllry", 12, data["Grd Brigade add2 artllry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional2Artlry.setCurrentIndex(data["Grd Brigade add2 artllry"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add1 h artllry", 13, data["Grd Brigade add1 h artllry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional1HrsArtlry.setCurrentIndex(data["Grd Brigade add1 h artllry"][0])
+
+            self.load_procedure_set_bonuses(data, "Grd Brigade add2 h artllry", 14, data["Grd Brigade add2 h artllry"][0], self.guard_brigade_number)
+            self.GrdBrgdAdditional2HrsArtlry.setCurrentIndex(data["Grd Brigade add2 h artllry"][0])
+
+        # dataSet["Foot Artillery Battery 1"] = [self.FootArtilleryBattery1.currentIndex(), self.presenter.BrigadeBttlnBonusList(0, self.artillery_quasy_brigade_number)]
+        # dataSet["Foot Artillery Battery 2"] = [self.FootArtilleryBattery1.currentIndex(), self.presenter.BrigadeBttlnBonusList(1, self.artillery_quasy_brigade_number)]
+        # dataSet["Foot Artillery Battery 3"] = [self.FootArtilleryBattery3.currentIndex(), self.presenter.BrigadeBttlnBonusList(2, self.artillery_quasy_brigade_number)]
+        #
+        # dataSet["Horse Artillery Battery 1"] = [self.HorseArtilleryBattery1.currentIndex()]
+        # dataSet["Horse Artillery Battery 2"] = [self.HorseArtilleryBattery2.currentIndex()]
+        # dataSet["Horse Artillery Battery 3"] = [self.HorseArtilleryBattery3.currentIndex()]
+        #
+        # dataSet["Heavy Artillery Battery 1"] = [self.HeavyArtilleryBattery1.currentIndex(), self.presenter.BrigadeBttlnBonusList(6, self.artillery_quasy_brigade_number)]
+        # dataSet["Heavy Artillery Battery 2"] = [self.HeavyArtilleryBattery2.currentIndex(), self.presenter.BrigadeBttlnBonusList(7, self.artillery_quasy_brigade_number)]
+        # dataSet["Heavy Artillery Battery 3"] = [self.HeavyArtilleryBattery3.currentIndex(), self.presenter.BrigadeBttlnBonusList(8, self.artillery_quasy_brigade_number)]
+
+        self.load_procedure_set_bonuses(data, "Foot Artillery Battery 1", 0, data["Foot Artillery Battery 1"][0], self.artillery_quasy_brigade_number)
+        self.FootArtilleryBattery1.setCurrentIndex(data["Foot Artillery Battery 1"][0])
+        self.load_procedure_set_bonuses(data, "Foot Artillery Battery 2", 1, data["Foot Artillery Battery 2"][0], self.artillery_quasy_brigade_number)
+        self.FootArtilleryBattery2.setCurrentIndex(data["Foot Artillery Battery 2"][0])
+        self.load_procedure_set_bonuses(data, "Foot Artillery Battery 3", 2, data["Foot Artillery Battery 3"][0], self.artillery_quasy_brigade_number)
+        self.FootArtilleryBattery3.setCurrentIndex(data["Foot Artillery Battery 3"][0])
+
+        self.HorseArtilleryBattery1.setCurrentIndex(data["Horse Artillery Battery 1"][0])
+        self.HorseArtilleryBattery2.setCurrentIndex(data["Horse Artillery Battery 2"][0])
+        self.HorseArtilleryBattery3.setCurrentIndex(data["Horse Artillery Battery 3"][0])
+
+        self.load_procedure_set_bonuses(data, "Heavy Artillery Battery 1", 6, data["Heavy Artillery Battery 1"][0], self.artillery_quasy_brigade_number)
+        self.HeavyArtilleryBattery1.setCurrentIndex(data["Heavy Artillery Battery 1"][0])
+        self.load_procedure_set_bonuses(data, "Heavy Artillery Battery 2", 7, data["Heavy Artillery Battery 2"][0], self.artillery_quasy_brigade_number)
+        self.HeavyArtilleryBattery2.setCurrentIndex(data["Heavy Artillery Battery 2"][0])
+        self.load_procedure_set_bonuses(data, "Heavy Artillery Battery 3", 8, data["Heavy Artillery Battery 3"][0], self.artillery_quasy_brigade_number)
+        self.HeavyArtilleryBattery3.setCurrentIndex(data["Heavy Artillery Battery 3"][0])
+
+    def load_procedure_set_bonuses(self, data, bttln_name, place_in_br_list, order_in_bttln_list, brgd_number):
+        for bonus_name, v in data[bttln_name][1].items():
+            bonus_cost = 0
+            for i in range(0, len(self.presenter.BrigadeBonusNameList(brgd_number))):
+                if bonus_name == self.presenter.BrigadeBonusNameList(brgd_number)[i]:
+                    bonus_cost = self.presenter.BrigadeBonusCostList(brgd_number)[i]
+            self.presenter.BrigadeBttlnListBonusAdd(bonus_name, place_in_br_list, order_in_bttln_list, brgd_number)
+            self.presenter.BrigadeBttlnListBonusCostAdd(bonus_cost, place_in_br_list, order_in_bttln_list, brgd_number)
+
+    def exportToPDF(self):
+
+        fileName, _= QFileDialog.getSaveFileName(
+            parent=self,
+            caption='Select a pdf file',
+            filter='Pdf File (*.pdf)'
+        )
+
+        if fileName:
+            try:
+                self.dataToSavePdf(fileName)
+            except:
+                self.error_message.text("pdf export error")
+                self.error_message.show()
+        else:
+            pass
+
 #
 #
 #     def dataToSavePdf(self, fileName):

@@ -62,6 +62,9 @@ class MainWindow(QMainWindow):
             case "Rus":
                 self.flagToLoad = True
                 self.startWindow.pushButton_Russia.click()
+            case "Ita":
+                self.flagToLoad = True
+                self.startWindow.pushButton_Italy.click()
             case _:
                 self.error_message.text("this country is not available")
                 self.error_message.show()
@@ -133,6 +136,20 @@ class MainWindow(QMainWindow):
 
     def show_ItaDivisionWindow(self):
         self.itaDivisionWindow = ItaDivisionWindow()
+
+        # добавляем прокрутку
+        self.scrollArea = QtWidgets.QScrollArea()
+        self.scrollArea.setWidget(self.itaDivisionWindow)
+        self.scrollArea.show()
+        self.scrollArea.resize(1600, 1020)
+        # поещаем окно в левый верхний угол
+        qr = self.frameGeometry()
+        cp = QtGui.QGuiApplication.primaryScreen().availableGeometry().topLeft()
+        qr.moveTopLeft(cp)
+        self.scrollArea.move(qr.topLeft())
+
+        self.scrollArea.setWindowTitle("Black Powder 2.0 Army Builder")
+
         # инициализация начальных значений полей
         self.itaDivisionWindow.generalCost.setText("0")
         self.itaDivisionWindow.aBrgdTotalCost.setText("0")
@@ -140,6 +157,7 @@ class MainWindow(QMainWindow):
         self.itaDivisionWindow.cBrgdTotalCost.setText("0")
         self.itaDivisionWindow.CvlryBrgdTotalCost.setText("0")
         self.itaDivisionWindow.GrdBrgdTotalCost.setText("0")
+
 
 
         # инициализация списков батальонов в бригадах
@@ -157,6 +175,12 @@ class MainWindow(QMainWindow):
         self.itaDivisionWindow.guard_brigade_bttln_Lists()
         self.itaDivisionWindow.all_artillery_batteries_Lists()
 
+        if self.flagToLoad:
+            try:
+                self.itaDivisionWindow.loadData(self.data)
+            except:
+                self.error_message.text("load army list error")
+                self.error_message.show()
 
         self.itaDivisionWindow.show()
 
