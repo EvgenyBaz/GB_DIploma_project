@@ -171,7 +171,32 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
         self.GrdBrgdAdd1CvlryModPushButton.clicked.connect(self.guard_the_add1_cvlry_mod_button_was_clicked)
         self.GrdBrgdAdd2CvlryModPushButton.clicked.connect(self.guard_the_add2_cvlry_mod_button_was_clicked)
 #-------------------------------------------------------------------
-#
+        self.artillery_quasy_brigade_number = 5
+        self.artillery_total_cost = 0
+
+        self.a_brgd_nmbr_of_battalions = 0
+        self.b_brgd_nmbr_of_battalions = 0
+        self.c_brgd_nmbr_of_battalions = 0
+        self.guard_brgd_nmbr_of_battalions = 0
+
+        self.FootArtilleryBattery1.currentIndexChanged.connect(self.footBattery1CostView)
+        self.FootArtilleryBattery2.currentIndexChanged.connect(self.footBattery2CostView)
+        self.FootArtilleryBattery3.currentIndexChanged.connect(self.footBattery3CostView)
+        self.HorseArtilleryBattery1.currentIndexChanged.connect(self.horseArtBattery1CostView)
+        self.HorseArtilleryBattery2.currentIndexChanged.connect(self.horseArtBattery2CostView)
+        self.HorseArtilleryBattery3.currentIndexChanged.connect(self.horseArtBattery3CostView)
+        self.HeavyArtilleryBattery1.currentIndexChanged.connect(self.heavyBattery1CostView)
+        self.HeavyArtilleryBattery2.currentIndexChanged.connect(self.heavyBattery2CostView)
+        self.HeavyArtilleryBattery3.currentIndexChanged.connect(self.heavyBattery3CostView)
+
+        self.FootArtBttry1ModPushButton.clicked.connect(self.foot_artillery1_mod_button_was_clicked)
+        self.FootArtBttry2ModPushButton.clicked.connect(self.foot_artillery2_mod_button_was_clicked)
+        self.FootArtBttry3ModPushButton.clicked.connect(self.foot_artillery3_mod_button_was_clicked)
+        self.HeavyArtBttry1ModPushButton.clicked.connect(self.heavy_artillery1_mod_button_was_clicked)
+        self.HeavyArtBttry2ModPushButton.clicked.connect(self.heavy_artillery2_mod_button_was_clicked)
+        self.HeavyArtBttry3ModPushButton.clicked.connect(self.heavy_artillery3_mod_button_was_clicked)
+
+#-------------------------------------------------------------------
 
     # заполняем список имен командиров дивизии
     def division_cmndrs_list(self):
@@ -187,9 +212,62 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
     def divisionTotalCostView(self):
 
           total_cost = int(self.generalCost.text())+int(self.aBrgdTotalCost.text())+int(self.bBrgdTotalCost.text())\
-                       +int(self.cBrgdTotalCost.text())+int(self.GrdBrgdTotalCost.text())
-          self.divisionTotalCost.setText(str(total_cost))
+                       +int(self.cBrgdTotalCost.text())+int(self.GrdBrgdTotalCost.text())+self.artillery_total_cost
 
+
+          self.artilleryBatteryVisible()
+
+          self.divisionTotalCost.setText(str(total_cost))
+#---------------------------------------------------------------------------------------------------
+    def artilleryBatteryVisible(self):
+
+        number_of_infantry_battalions = self.a_brgd_nmbr_of_battalions + self.b_brgd_nmbr_of_battalions + \
+                                        self.c_brgd_nmbr_of_battalions
+
+        if number_of_infantry_battalions > 7:
+            self.FootArtilleryBattery1.setDisabled(False)
+            self.HorseArtilleryBattery1.setDisabled(False)
+        else:
+            self.FootArtilleryBattery1.setCurrentIndex(0)
+            self.FootArtilleryBattery1.setDisabled(True)
+            self.HorseArtilleryBattery1.setCurrentIndex(0)
+            self.HorseArtilleryBattery1.setDisabled(True)
+
+        if number_of_infantry_battalions + self.guard_brgd_nmbr_of_battalions > 9:
+            self.HeavyArtilleryBattery1.setDisabled(False)
+        else:
+            self.HeavyArtilleryBattery1.setCurrentIndex(0)
+            self.HeavyArtilleryBattery1.setDisabled(True)
+
+        if number_of_infantry_battalions > 15:
+            self.FootArtilleryBattery2.setDisabled(False)
+            self.HorseArtilleryBattery2.setDisabled(False)
+        else:
+            self.FootArtilleryBattery2.setCurrentIndex(0)
+            self.FootArtilleryBattery2.setDisabled(True)
+            self.HorseArtilleryBattery2.setCurrentIndex(0)
+            self.HorseArtilleryBattery2.setDisabled(True)
+
+        if number_of_infantry_battalions + self.guard_brgd_nmbr_of_battalions > 19:
+            self.HeavyArtilleryBattery2.setDisabled(False)
+        else:
+            self.HeavyArtilleryBattery2.setCurrentIndex(0)
+            self.HeavyArtilleryBattery2.setDisabled(True)
+
+        if number_of_infantry_battalions > 23:
+            self.FootArtilleryBattery3.setDisabled(False)
+            self.HorseArtilleryBattery3.setDisabled(False)
+        else:
+            self.FootArtilleryBattery3.setCurrentIndex(0)
+            self.FootArtilleryBattery3.setDisabled(True)
+            self.HorseArtilleryBattery3.setCurrentIndex(0)
+            self.HorseArtilleryBattery3.setDisabled(True)
+
+        if number_of_infantry_battalions + self.guard_brgd_nmbr_of_battalions > 29:
+            self.HeavyArtilleryBattery3.setDisabled(False)
+        else:
+            self.HeavyArtilleryBattery3.setCurrentIndex(0)
+            self.HeavyArtilleryBattery3.setDisabled(True)
 
 #     # ------------------------------------------------------------------------------------------------------------------
    #запрос через дивизию стоимости текущего командира бригалы и установка его значения в окно
@@ -446,6 +524,8 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
 
         self.a_brgd_1st_rgmt_nmbr_of_battalions = (sum(self.presenter.BrigadeBttlnPresence(i, self.a_brigade_number) for i in range(0, 4)))
         self.a_brgd_2nd_rgmt_nmbr_of_battalions = (sum(self.presenter.BrigadeBttlnPresence(i, self.a_brigade_number) for i in range(4, 8)))
+        self.a_brgd_nmbr_of_battalions = self.a_brgd_1st_rgmt_nmbr_of_battalions + self.a_brgd_2nd_rgmt_nmbr_of_battalions
+
 
         if self.aBrgd1stRgmntAddBttry.currentText() == "Regimental Artillery Battery":
             if self.a_brgd_1st_rgmt_nmbr_of_battalions < 3:
@@ -777,6 +857,7 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
             sum(self.presenter.BrigadeBttlnPresence(i, self.b_brigade_number) for i in range(0, 4)))
         self.b_brgd_2nd_rgmt_nmbr_of_battalions = (
             sum(self.presenter.BrigadeBttlnPresence(i, self.b_brigade_number) for i in range(4, 8)))
+        self.b_brgd_nmbr_of_battalions = self.b_brgd_1st_rgmt_nmbr_of_battalions + self.b_brgd_2nd_rgmt_nmbr_of_battalions
 
         if self.bBrgd1stRgmntAddBttry.currentText() == "Regimental Artillery Battery":
             if self.b_brgd_1st_rgmt_nmbr_of_battalions < 3:
@@ -1134,6 +1215,7 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
             sum(self.presenter.BrigadeBttlnPresence(i, self.c_brigade_number) for i in range(0, 4)))
         self.c_brgd_2nd_rgmt_nmbr_of_battalions = (
             sum(self.presenter.BrigadeBttlnPresence(i, self.c_brigade_number) for i in range(4, 8)))
+        self.c_brgd_nmbr_of_battalions = self.c_brgd_1st_rgmt_nmbr_of_battalions + self.c_brgd_2nd_rgmt_nmbr_of_battalions
 
         if self.cBrgd1stRgmntAddBttry.currentText() == "Regimental Artillery Battery":
             if self.c_brgd_1st_rgmt_nmbr_of_battalions < 3:
@@ -1448,8 +1530,7 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
 
     def additional_artillery_check(self):
         # определим наличие пехотных батальонов в бригаде
-        self.guard_brgd_nmbr_of_battalions = (
-            sum(self.presenter.BrigadeBttlnPresence(i, self.guard_brigade_number) for i in range(0, 6)))
+
         self.brgd_place_token = self.guard_brgd_nmbr_of_battalions // 2
 
         # определим наличие пехотных батальонов в первом полку
@@ -1614,9 +1695,10 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
         total_cost = self.presenter.BrigadeCmndrsCost(self.GrdBrgdCmndr.currentIndex(),self.guard_brigade_number) + \
                      sum(self.presenter.BrigadeBttlnCost(i, self.guard_brigade_number) for i in range(15))
 
+
         self.GrdBrgdTotalCost.setText(str(total_cost))
-        self.guard_nmbr_of_battalions = (sum(self.presenter.BrigadeBttlnPresence(i, self.guard_brigade_number) for i in range(6)))
-        if self.guard_nmbr_of_battalions > 0:
+        self.guard_brgd_nmbr_of_battalions = (sum(self.presenter.BrigadeBttlnPresence(i, self.guard_brigade_number) for i in range(6)))
+        if self.guard_brgd_nmbr_of_battalions > 0:
             self.GrdBrgdAdditional1Bttry.setDisabled(False)
             self.GrdBrgdAdditional2Bttry.setDisabled(False)
             self.GrdBrgdAdditional3Bttry.setDisabled(False)
@@ -1753,20 +1835,108 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
                                               self.GrdBrgdAdd2CvlryModPushButton,
                                               self.GrdBrgdAdditional2Cvlry.currentText(), self.order_number)
 
+#------------------------------------------------------------------------------------------------------
+    def all_artillery_batteries_Lists(self):
+        artillery_battery_Lists1 = [self.FootArtilleryBattery1, self.FootArtilleryBattery2, self.FootArtilleryBattery3,
+                                    self.HorseArtilleryBattery1, self.HorseArtilleryBattery2, self.HorseArtilleryBattery3,
+                                    self.HeavyArtilleryBattery1, self.HeavyArtilleryBattery2, self.HeavyArtilleryBattery3]
+
+        brigade_bttln_Lists(self.artillery_quasy_brigade_number, self.presenter, None,
+                            artillery_battery_Lists1)
+
+    def artilleryTotalCost(self):
+        self.artillery_total_cost = sum(self.presenter.BrigadeBttlnCost(i, self.artillery_quasy_brigade_number) for i in range(9))
+        self.divisionTotalCostView()
 
 
+    def footBattery1CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.FootArtBttryCost1, self.artilleryTotalCost, 0, self.FootArtBttry1ModPushButton)
+    def footBattery2CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.FootArtBttryCost2, self.artilleryTotalCost, 1, self.FootArtBttry2ModPushButton)
+    def footBattery3CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.FootArtBttryCost3, self.artilleryTotalCost, 2, self.FootArtBttry3ModPushButton)
+    def horseArtBattery1CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HorseArtBttryCost1, self.artilleryTotalCost, 3, None)
+    def horseArtBattery2CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HorseArtBttryCost2, self.artilleryTotalCost, 4, None)
+    def horseArtBattery3CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HorseArtBttryCost3, self.artilleryTotalCost, 5, None)
 
+    def heavyBattery1CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HeavyArtBttryCost1, self.artilleryTotalCost, 6, self.HeavyArtBttry1ModPushButton)
+    def heavyBattery2CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HeavyArtBttryCost2, self.artilleryTotalCost, 7, self.HeavyArtBttry2ModPushButton)
+    def heavyBattery3CostView(self, battery_choosen_from_list):
+        self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
+                               self.HeavyArtBttryCost3, self.artilleryTotalCost, 8, self.HeavyArtBttry3ModPushButton)
 
+    def foot_artillery1_mod_button_was_clicked(self):
+        if self.FootArtilleryBattery1.currentIndex() != 0:
+            battalion_order = "Foot artillery"
+            self.order_number = 0  # первая по порядру арт рота
+            self.brgdFirstBattalionCostSetText = self.FootArtBttryCost1.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.FootArtBttry1ModPushButton,
+                                              self.FootArtilleryBattery1.currentText(), self.order_number)
 
+    def foot_artillery2_mod_button_was_clicked(self):
+        if self.FootArtilleryBattery2.currentIndex() != 0:
+            battalion_order = "Foot artillery"
+            self.order_number = 1  # вторая по порядку арт рота
+            self.brgdSecondBattalionCostSetText = self.FootArtBttryCost2.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.FootArtBttry2ModPushButton,
+                                              self.FootArtilleryBattery2.currentText(), self.order_number)
 
+    def foot_artillery3_mod_button_was_clicked(self):
+        if self.FootArtilleryBattery3.currentIndex() != 0:
+            battalion_order = "Foot artillery"
+            self.order_number = 2  # третья по порядку арт рота
+            self.brgdThirdBattalionCostSetText = self.FootArtBttryCost3.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.FootArtBttry3ModPushButton,
+                                              self.FootArtilleryBattery3.currentText(), self.order_number)
 
+    def heavy_artillery1_mod_button_was_clicked(self):
+        if self.HeavyArtilleryBattery1.currentIndex() != 0:
+            battalion_order = "Heavy artillery"
+            self.order_number = 6  # седьмая по порядку арт рота
+            self.brgdSeventhBattalionCostSetText = self.HeavyArtBttryCost1.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.HeavyArtBttry1ModPushButton,
+                                              self.HeavyArtilleryBattery1.currentText(), self.order_number)
 
+    def heavy_artillery2_mod_button_was_clicked(self):
+        if self.HeavyArtilleryBattery2.currentIndex() != 0:
+            battalion_order = "Heavy artillery"
+            self.order_number = 7  # восьмая по порядку арт рота
+            self.brgdEighthBattalionCostSetText = self.HeavyArtBttryCost2.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.HeavyArtBttry2ModPushButton,
+                                              self.HeavyArtilleryBattery2.currentText(), self.order_number)
 
-
-
-
-
-
+    def heavy_artillery3_mod_button_was_clicked(self):
+        if self.HeavyArtilleryBattery3.currentIndex() != 0:
+            battalion_order = "Heavy artillery"
+            self.order_number = 8  # девятая по порядку арт рота
+            self.brgdNinthBattalionCostSetText = self.HeavyArtBttryCost3.setText
+            self.brgdTotalCostView = self.artilleryTotalCost
+            self.bttln_mod_button_was_clicked(battalion_order, self.artillery_quasy_brigade_number,
+                                              self.HeavyArtBttry3ModPushButton,
+                                              self.HeavyArtilleryBattery3.currentText(), self.order_number)
 
 
 #     #--------------------------------------------------------------------------------------------------------------------
@@ -1917,9 +2087,9 @@ class ItaDivisionWindow(QtWidgets.QMainWindow, Ui_ItaDivisionWindow):
                 case 7:
                     self.brgdEighthBattalionCostSetText(
                         str(self.presenter.BrigadeBttlnCost(self.order_number, self.brigade_number)))
-                # case 8:
-                #     self.brgdNinthBattalionCostSetText(
-                #     str(self.presenter.BrigadeBttlnCost(self.order_number, self.brigade_number)))
+                case 8:
+                    self.brgdNinthBattalionCostSetText(
+                    str(self.presenter.BrigadeBttlnCost(self.order_number, self.brigade_number)))
                 case 9:
                     self.brgdTenthBattalionCostSetText(
                         str(self.presenter.BrigadeBttlnCost(self.order_number, self.brigade_number)))

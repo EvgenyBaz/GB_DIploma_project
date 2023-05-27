@@ -155,6 +155,8 @@ class MainWindow(QMainWindow):
         self.itaDivisionWindow.c_brigade_bttln_Lists()
         self.itaDivisionWindow.cvlry_brigade_bttln_Lists()
         self.itaDivisionWindow.guard_brigade_bttln_Lists()
+        self.itaDivisionWindow.all_artillery_batteries_Lists()
+
 
         self.itaDivisionWindow.show()
 
