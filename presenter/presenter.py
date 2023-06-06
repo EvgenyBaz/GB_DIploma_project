@@ -3,7 +3,7 @@ from model.army.ita.ita_division import ItaDivision
 
 class Presenter():
     def __init__(self, country):
-    #производим выбок структуры и наполнения дивизии в зависимости от выбранной  страны
+    #производим выбор структуры и наполнения дивизии в зависимости от выбранной  страны
         match country:
             case "Rus":
                 self.division = RusDivision()

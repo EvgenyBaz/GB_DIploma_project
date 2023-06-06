@@ -5,18 +5,14 @@ class Brigade:
         # список командиров
         self.brigade_commanders_list = []
 
-
         # список батальонов (обьектов) включенных в бригаду - по умолчанию unit - тоесть пустышка
         self.brigade_list = []
-
 
         # возможные вариации для каждого батальона
         self.brigade_list_battalion_list = []
 
-
         # возможные бонусы для батальонов в бригаде
         self.brigade_bonus_list = []
-
 
         # зададим соответствие бонусу - батальона
         self.brigade_bonus_battalion_correspondence = {}

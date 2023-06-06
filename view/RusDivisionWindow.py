@@ -3095,7 +3095,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         pdf.set_font('FontNS', 'B', 10)
         pdf.cell(0, 8, f'Total cost: {self.divisionTotalCost.text()}', align=Align.R, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.print_line(pdf)
-# запрашиваем и печатаем имя, стоимость и умения дивиpионного командира
+# запрашиваем и печатаем имя, стоимость и умения дивизионного командира
         pdf.set_font('FontNS', 'I', 10)
         pdf.cell(0, 8, "Division commander", new_x=XPos.LMARGIN)
         pdf.cell(0, 8, "Cost", align=Align.R, new_x=XPos.LMARGIN, new_y=YPos.NEXT)

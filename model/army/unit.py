@@ -3,13 +3,12 @@ class Unit:
     presence = 0
 
     def __init__(self):
-        # self.name = "empty"
         self.type = "unit"
         self.armament = "weapon"
-        self.hand_to_hand = 4
-        self.shooting = 4
-        self.morale = 4
-        self.stamina = 4
+        self.hand_to_hand = 0
+        self.shooting = 0
+        self.morale = 0
+        self.stamina = 0
         self.special = {
             "property"
         }
@@ -25,7 +24,6 @@ class Unit:
         for bonus in self.bonus:
             result = result + bonus + ", "
         return result[0:-2]
-
 
     @classmethod
     def get_name_of_battalion(cls):

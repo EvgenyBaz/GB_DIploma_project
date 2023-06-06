@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
         self.scrollArea.setWidget(self.rusDivisionWindow)
         self.scrollArea.show()
         self.scrollArea.resize(1600, 1000)
-# поещаем окно в левый верхний угол
+# помещаем окно в левый верхний угол
         qr=self.frameGeometry()
         cp=QtGui.QGuiApplication.primaryScreen().availableGeometry().topLeft()
         qr.moveTopLeft(cp)
