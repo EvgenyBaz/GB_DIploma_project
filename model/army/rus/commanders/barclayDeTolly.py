@@ -5,5 +5,5 @@ class BarklayDeTolly(BasicCommander):
         self.cost = 100
         self.special = {
             "Combat attack +1 Dice. Decisive. If he fails to give an order to a unit/s \
-he can contunue to give one more order to a different unit on a D6 roll of 4+"
+he can continue to give one more order to a different unit on a D6 roll of 4+"
         }
