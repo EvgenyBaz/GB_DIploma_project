@@ -4,4 +4,5 @@ class CarlChristianErdmannEdlerVonLeCoq(BasicCommander):
     def __init__(self):
         self.name = "Carl Christian Erdmann Edler von Le Coq"
         self.cost = 150
-        self.special = {"add..."}
+        self.special = {'Combat attack +2 Dice. Decisive. Inspirational. "Hero of the Army". A Saxson army with\
+         Le Cog in command has D3 units that are Valiant. SR 8'}

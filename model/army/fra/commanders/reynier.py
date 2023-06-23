@@ -4,4 +4,4 @@ class JeanLouisEbenezerReynier(BasicCommander):
     def __init__(self):
         self.name = "Jean-Louis-Ebenezer Reynier"
         self.cost = 125
-        self.special = {"add..."}
+        self.special = {'Combat attack +2 Dice. Decisive. Aggressive. SR 8'}

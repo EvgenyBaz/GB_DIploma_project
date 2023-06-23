@@ -4,4 +4,4 @@ class Poniatowski(BasicCommander):
     def __init__(self):
         self.name = "Marshal Josef Antoni, Prince of Poniatowski"
         self.cost = 150
-        self.special = {"add..."}
+        self.special = {'Combat attack +2 Dice. Inspirational to Polish formations. SR 9'}
