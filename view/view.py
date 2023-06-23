@@ -11,6 +11,7 @@ from PyQt6 import QtWidgets, uic
 from view.StartWindow import StartWindow
 from view.RusDivisionWindow import RusDivisionWindow
 from view.ItaDivisionWindow import ItaDivisionWindow
+from view.FraDivisionWindow import FraDivisionWindow
 from view.E_message import MessageWindow
 
 
@@ -31,7 +32,8 @@ class MainWindow(QMainWindow):
 
         self.startWindow.pushButton_Russia.clicked.connect(self.show_RusDivisionWindow) # по нажатию кнопки включаем окно с описанием корпуса русской армии
         self.startWindow.pushButton_Russia.clicked.connect(self.startWindow.close) # выключаем текущее окно
-        self.startWindow.pushButton_France.clicked.connect(self.the_fra_button_was_clicked) # заглушка
+        self.startWindow.pushButton_France.clicked.connect(self.show_FraDivisionWindow)
+        self.startWindow.pushButton_France.clicked.connect(self.startWindow.close)
         self.startWindow.pushButton_Italy.clicked.connect(self.show_ItaDivisionWindow)
         self.startWindow.pushButton_Italy.clicked.connect(self.startWindow.close)
 
@@ -65,6 +67,9 @@ class MainWindow(QMainWindow):
             case "Ita":
                 self.flagToLoad = True
                 self.startWindow.pushButton_Italy.click()
+            case "Fra":
+                self.flagToLoad = True
+                self.startWindow.pushButton_France.click()
             case _:
                 self.error_message.text("this country is not available")
                 self.error_message.show()
@@ -130,9 +135,28 @@ class MainWindow(QMainWindow):
         self.rusDivisionWindow.show()
 
 
-    def the_fra_button_was_clicked(self): # заглушка
-        self.error_message.text("France will be available in further updates")
-        self.error_message.show()
+    def show_FraDivisionWindow(self): # заглушка
+        self.fraDivisionWindow = FraDivisionWindow()
+
+        # добавляем прокрутку
+        self.scrollArea = QtWidgets.QScrollArea()
+        self.scrollArea.setWidget(self.fraDivisionWindow)
+        self.scrollArea.show()
+        self.scrollArea.resize(1600, 1000)
+        # помещаем окно в левый верхний угол
+        qr = self.frameGeometry()
+        cp = QtGui.QGuiApplication.primaryScreen().availableGeometry().topLeft()
+        qr.moveTopLeft(cp)
+        self.scrollArea.move(qr.topLeft())
+
+        self.scrollArea.setWindowTitle("Black Powder 2.0 Army Builder")
+
+        self.fraDivisionWindow.generalCost.setText("0")
+        self.fraDivisionWindow.aBrgdTotalCost.setText("0")
+
+        # инициализация списков батальонов в бригадах
+        # self.fraDivisionWindow.division_cmndrs_list()
+        # self.fraDivisionWindow.a_brigade_bttln_Lists()
 
     def show_ItaDivisionWindow(self):
         self.itaDivisionWindow = ItaDivisionWindow()
