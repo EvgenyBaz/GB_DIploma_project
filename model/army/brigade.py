@@ -1,62 +1,84 @@
 from model.army.unit import Unit
+from model.army.basic_commander import BasicCommander
+
+
 class Brigade:
+    """ Basic class for all brigades. It contains common methods for all brigades"""
 
     def __init__(self):
         # список командиров
-        self.brigade_commanders_list = []
+        self.brigade_commanders_list: list[BasicCommander] = []
 
-        # список батальонов (обьектов) включенных в бригаду - по умолчанию unit - тоесть пустышка
-        self.brigade_list = []
+        # список батальонов (объектов) включенных в бригаду
+        self.brigade_list: list[Unit] = []
 
         # возможные вариации для каждого батальона
-        self.brigade_list_battalion_list = []
+        self.brigade_list_battalion_list: list[list[Unit]] = []
 
         # возможные бонусы для батальонов в бригаде
-        self.brigade_bonus_list = []
+        self.brigade_bonus_list: list[list[str, int]] = []
 
         # зададим соответствие бонусу - батальона
-        self.brigade_bonus_battalion_correspondence = {}
+        self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
 
+    def get_brigade_bonus_to_battalion_list(self, bonus_name: str) -> list[str]:
+        """ Gets bonus_name: str and returns corresponding list of battalions names"""
 
-    def get_brigade_bonus_to_battalion_list(self, bonus_name):
         return self.brigade_bonus_battalion_correspondence[bonus_name]
 
-    def get_brigade_bonus_list_names(self):
-        bonus_names_list = []
+    def get_brigade_bonus_list_names(self) -> list[str]:
+        """ Returns list of battalions bonus names"""
+
+        bonus_names_list: list[str] = []
         for i in range(len(self.brigade_bonus_list)):
             bonus_names_list.append(self.brigade_bonus_list[i][0])
         return bonus_names_list
 
-    def get_brigade_bonus_list_costs(self):
-        bonus_cost_list = []
+    def get_brigade_bonus_list_costs(self) -> list[int]:
+        """ Returns list of battalions bonus costs"""
+
+        bonus_cost_list: list[int] = []
         for i in range(len(self.brigade_bonus_list)):
             bonus_cost_list.append(self.brigade_bonus_list[i][1])
         return bonus_cost_list
 
-    def get_brigade_bonus_costs(self, bonus_name):
-        bonus_cost = 0
+    def get_brigade_bonus_costs(self, bonus_name: str) -> int:
+        """ Gets bonus_name: str and returns corresponding bonus cost"""
+
+        bonus_cost: int = 0
         for i in range(len(self.brigade_bonus_list)):
             if bonus_name == self.brigade_bonus_list[i][0]:
-                bonus_cost = self.brigade_bonus_list[i][1]
+                bonus_cost = self.brigade_bonus_list[i][1] # автопроверка дурит, второе значение в списке int
 
         return bonus_cost
 
-    def get_list_commanders_names(self):
-        brigade_cmndrs_names = []
+    def get_list_commanders_names(self) -> list[str]:
+        """ Returns brigade commander names list"""
+
+        brigade_cmndrs_names: list[str] = []
         for cmndr in self.brigade_commanders_list:
             brigade_cmndrs_names.append(cmndr.get_name_of_commander())
         return brigade_cmndrs_names
 
-    def get_name_of_commander(self, index):
+    def get_name_of_commander(self, index: int) -> str:
+        """ Gets  commander list index: int  and returns brigade commander name"""
+
         return self.brigade_commanders_list[index].get_name_of_commander()
+
     # по порядковому номеру в списке командиров возвращает его стоимость
-    def get_costs_of_commander(self, index):
+    def get_costs_of_commander(self, index: int) -> int:
+        """ Gets  commander list index: int  and returns brigade commander cost"""
+
         return self.brigade_commanders_list[index].get_cost_of_commander()
 
-    def main_battalion_list(self):
+    def main_battalion_list(self) -> list[Unit]:
+        """ Returns list of core battalions in the brigade"""
+
         return []
 
-    def additional_battalion_list(self):
+    def additional_battalion_list(self) -> list[Unit]:
+        """ Returns list of auxiliary battalions in the brigade"""
+
         return []
 
     # создает список имен батальонов в зависимости от порядкового номера батальона в бригаде
@@ -67,7 +89,7 @@ class Brigade:
             brigade_bttln_list_names.append(bttln.name)
         return brigade_bttln_list_names
 
-    # помещает выбраный в интерфейсе батальон (обьект) в список бригады на позицию соответствующую кнопке
+    # помещает выбранный в интерфейсе батальон (объект) в список бригады на позицию соответствующую кнопке
     def set_battalion_to_list(self, order_number, bttln_choosen_from_list, shift):
         self.brigade_list[order_number] = self.brigade_list_battalion_list[order_number + shift][
             bttln_choosen_from_list]
@@ -105,11 +127,13 @@ class Brigade:
     # добавляем стоимость бонуса к общей стоимости бонусов батальона в общем списке бригады (используется при загрузке данных)
     def add_bonus_cost_to_battalionin_br_lists(self, new_bonus_cost, place_number, order_number):
         self.brigade_list_battalion_list[place_number][order_number].bonus_cost += new_bonus_cost
+
     # возвращаем по запросу список всех бонусов батальона
     def get_bonus_list(self, order_number):
         return self.brigade_list[order_number].bonus
 
     def set_common_list_of_battalions(self, order_number):
         self.brigade_list_battalion_list[order_number].insert(0, Unit())
+
     def set_list_of_battalions(self, order_number):
         self.brigade_list_battalion_list[order_number].pop(0)

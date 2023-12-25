@@ -1,4 +1,4 @@
-
 from view.view import MainWindow
 
-view = MainWindow()
+if __name__ == "__main__":
+    view = MainWindow()

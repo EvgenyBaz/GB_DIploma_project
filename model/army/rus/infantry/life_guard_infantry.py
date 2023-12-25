@@ -1,6 +1,9 @@
 from model.army.infantry import Infantry
+
+
 class LifeGuardInfantry(Infantry):
     name = "Life guard Infantry"
+
     def __init__(self):
         self.type = "Regular Infantry"
         self.armament = "Smoothbore Musket"

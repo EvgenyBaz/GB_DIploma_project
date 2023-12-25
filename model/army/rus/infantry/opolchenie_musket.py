@@ -1,6 +1,9 @@
 from model.army.infantry import Infantry
+
+
 class OpolchenieMusket(Infantry):
     name = "Opolchenie with Musket"
+
     def __init__(self):
         self.type = "Regular Infantry"
         self.armament = "Smoothbore Musket"

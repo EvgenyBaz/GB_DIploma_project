@@ -19,13 +19,13 @@ class InfantryBrigade(Brigade):
 
     def __init__(self):
         # список командиров
-        self.brigade_commanders_list = []
+        self.brigade_commanders_list: list[BasicCommander] = []
         self.brigade_commanders_list.append(BasicCommander())
         self.brigade_commanders_list.append(CommanderSkill7())
         self.brigade_commanders_list.append(CommanderSkill8())
 
-        # список батальонов (обьектов) включенных в бригаду - по умолчанию unit - тоесть пустышка
-        self.brigade_list = []
+        # список батальонов (объектов) включенных в бригаду - по умолчанию unit - то есть пустышка
+        self.brigade_list: list[Unit] = []
         self.brigade_list.append(Unit())  # первый батальон
         self.brigade_list.append(Unit())  # второй батальон
         self.brigade_list.append(Unit())  # третий батальон
@@ -34,7 +34,7 @@ class InfantryBrigade(Brigade):
         self.brigade_list.append(Unit())  # дополнительный батальон - егеря
 
         # возможные вариации для каждого батальона
-        self.brigade_list_battalion_list = []
+        self.brigade_list_battalion_list: list[list[Unit]] = []
         self.brigade_list_battalion_list.append(self.main_battalion_list())  # первый батальон - варианты
         self.brigade_list_battalion_list.append(self.main_battalion_list())  # второй батальон - варианты
         self.brigade_list_battalion_list.append(self.main_battalion_list())  # третий батальон - варианты
@@ -45,13 +45,13 @@ class InfantryBrigade(Brigade):
             self.additional_jgr_battalion_list())  # дополнительный батальон ereря
 
         # возможные бонусы для батальонов в бригаде
-        self.brigade_bonus_list = []
+        self.brigade_bonus_list: list[list[str, int]] = []
         self.brigade_bonus_list.append(["Veteran", 8])
         self.brigade_bonus_list.append(["Small", -8])
         self.brigade_bonus_list.append(["Sharpshooter", 3])
 
         # зададим соответствие бонусу - батальона
-        self.brigade_bonus_battalion_correspondence = {}
+        self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
         self.brigade_bonus_battalion_correspondence = \
             {"Veteran": [LineInfantry.get_name_of_battalion(),
                          CombinedGrenadier.get_name_of_battalion(),
@@ -70,14 +70,17 @@ class InfantryBrigade(Brigade):
                               VolunteerJagerMusket.get_name_of_battalion()]
              }
 
+    def main_battalion_list(self) -> list[Unit]:
+        """ Returns list of core battalions in the brigade"""
 
-    def main_battalion_list(self):
         return [
             Unit(),
             LineInfantry()
         ]
 
-    def additional_battalion_list(self):
+    def additional_battalion_list(self) -> list[Unit]:
+        """ Returns list of auxiliary battalions in the brigade"""
+
         return [
             Unit(),
             CombinedGrenadier(),
@@ -89,7 +92,9 @@ class InfantryBrigade(Brigade):
             Jager()
         ]
 
-    def additional_jgr_battalion_list(self):
+    def additional_jgr_battalion_list(self) -> list[Unit]:
+        """ Returns list of special auxiliary battalions in the brigade"""
+
         return [
             Unit(),
             Jager()

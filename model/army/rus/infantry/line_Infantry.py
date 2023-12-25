@@ -1,20 +1,21 @@
 from model.army.infantry import Infantry
-class LineInfantry(Infantry):
 
+
+class LineInfantry(Infantry):
     name = "Line Infantry"
+
     def __init__(self):
-        self.type = "Regular Infantry"
-        self.armament = "Smoothbore Musket"
-        self.hand_to_hand = 6
-        self.shooting = 3
-        self.morale = 4
-        self.stamina = 4
-        self.special = {
+        self.type: str = "Regular Infantry"
+        self.armament: str = "Smoothbore Musket"
+        self.hand_to_hand: int = 6
+        self.shooting: int = 3
+        self.morale: int = 4
+        self.stamina: int = 4
+        self.special: set[str] = {
             "Tough Fighter",
             "Poor Skirmisher",
             "Lacking Initiative"
         }
-        self.cost = 41
-        self.bonus = {}
-        self.bonus_cost = 0
-
+        self.cost: int = 41
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0
