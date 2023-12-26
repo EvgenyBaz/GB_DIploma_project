@@ -39,7 +39,7 @@ class Brigade:
 
         bonus_cost_list: list[int] = []
         for i in range(len(self.brigade_bonus_list)):
-            bonus_cost_list.append(self.brigade_bonus_list[i][1])
+            bonus_cost_list.append(self.brigade_bonus_list[i][1])  # автопроверка дурит, второе значение в списке int
         return bonus_cost_list
 
     def get_brigade_bonus_costs(self, bonus_name: str) -> int:

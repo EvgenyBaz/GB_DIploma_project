@@ -1,24 +1,28 @@
 class BasicCommander:
     """ Basic class for all Commanders, contains common methods for all commanders"""
 
-    presence = 0
+    presence: int = 0
 
     def __init__(self):
         self.name: str = "empty"
         self.cost: int = 0
-        self.special = {}
+        self.special: set[str] = {
+            "property"
+        }
 
-    def get_cost_of_commander(self):
+    def get_cost_of_commander(self) -> int:
         """ Returns current commander cost"""
 
         return self.cost
 
-    def get_name_of_commander(self):
+    def get_name_of_commander(self) -> str:
         """ Returns current commander name"""
 
         return self.name
 
-    def get_skills_of_commander(self):
+    def get_skills_of_commander(self) -> str:
+        """ Returns string with commander skills"""
+
         skills = "  "
         for k in self.special:
             skills = skills + str(k) + ", "

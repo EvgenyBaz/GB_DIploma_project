@@ -1,8 +1,8 @@
 class Unit:
     """ Basic class for all units contains common methods for all units"""
 
-    name = "empty"
-    presence = 0
+    name: str = "empty"
+    presence: int = 0
 
     def __init__(self):
         self.type: str = "unit"
