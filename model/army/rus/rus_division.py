@@ -27,24 +27,27 @@ from model.army.rus.commanders.vorontsov import Vorontsov
 from model.army.rus.commanders.bogdanovsky import Bogdanovsky
 from model.army.rus.commanders.raevsky import Raevsky
 
+
 class RusDivision(Division):
+    """ class describing the composition of the Russian Imperial Army Division
+    commanders list and brigades list"""
 
     def __init__(self):
         self.division_list = [
-            InfantryBrigade(),              #0
-            InfantryBrigade(),              #1
-            InfantryBrigade(),              #2
-            JagerBrigade(),                 #3
-            CombinedGrenadierBrigade(),     #4
-            GrenadierBrigade(),             #5
-            LightCavalryBrigade(),          #6
-            HeavyCavalryBrigade(),          #7
-            CossackBrigade(),               #8
-            LifeGuardInfantryBrigade(),     #9
-            LifeGuadLightCavalryBrigade(),  #10
-            LifeGuadHeavyCavalryBrigade(),  #11
-            AllArtillery(),                 #12
-            EarthWorks()                    #13
+            InfantryBrigade(),  # 0
+            InfantryBrigade(),  # 1
+            InfantryBrigade(),  # 2
+            JagerBrigade(),  # 3
+            CombinedGrenadierBrigade(),  # 4
+            GrenadierBrigade(),  # 5
+            LightCavalryBrigade(),  # 6
+            HeavyCavalryBrigade(),  # 7
+            CossackBrigade(),  # 8
+            LifeGuardInfantryBrigade(),  # 9
+            LifeGuadLightCavalryBrigade(),  # 10
+            LifeGuadHeavyCavalryBrigade(),  # 11
+            AllArtillery(),  # 12
+            EarthWorks()  # 13
         ]
 
         self.division_commanders_list = [

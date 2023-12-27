@@ -1,4 +1,5 @@
 from model.army.brigade import Brigade
+from model.army.basic_commander import BasicCommander
 
 from model.army.unit import Unit
 from model.army.rus.artilllery.light_artillery_battery import LightArtilleryBattery
@@ -11,13 +12,14 @@ from model.army.rus.artilllery.horse_artillery_battery import HorseArtilleryBatt
 from model.army.rus.artilllery.horse_artillery_half_battery import HorseArtilleryHalfBattery
 
 class AllArtillery(Brigade):
+    """ class describing the composition of all artillery"""
 
     def __init__(self):
         # список командиров
-        self.brigade_commanders_list = []
+        self.brigade_commanders_list: list[BasicCommander] = []
 
         # список батальонов (обьектов) включенных в бригаду - по умолчанию unit - тоесть пустышка
-        self.brigade_list = []
+        self.brigade_list: list[Unit] = []
         self.brigade_list.append(Unit())  # первая легкая рота
         self.brigade_list.append(Unit())  # вторая легкая рота
         self.brigade_list.append(Unit())  # третья легкая рота
@@ -39,7 +41,7 @@ class AllArtillery(Brigade):
         self.brigade_list.append(Unit())  # третья конная рота
 
         # возможные вариации для каждого батальона
-        self.brigade_list_battalion_list = []
+        self.brigade_list_battalion_list: list[list[Unit]] = []
         self.brigade_list_battalion_list.append(self.light_battery_list())  # первая легкая рота - варианты     0
         self.brigade_list_battalion_list.append(self.light_battery_list())  # вторая легкая рота - варианты     1
         self.brigade_list_battalion_list.append(self.light_battery_list())  # третья легкая рота - варианты     2
@@ -61,33 +63,41 @@ class AllArtillery(Brigade):
         self.brigade_list_battalion_list.append(self.horse_battery_list())  # третья конная рота                18
 
         # возможные бонусы для батальонов в бригаде
-        self.brigade_bonus_list = []
+        self.brigade_bonus_list: list[list[str, int]] = []
 
         # зададим соответствие бонусу - батальона
-        self.brigade_bonus_battalion_correspondence = {}
+        self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
 
-    def light_battery_list(self):
+    def light_battery_list(self) -> list[Unit]:
+        """ Returns list of light artillery batteries"""
+
         return [
             Unit(),
             LightArtilleryBattery(),
             LightArtilleryHalfBattery()
         ]
 
-    def heavy_battery_list(self):
+    def heavy_battery_list(self) -> list[Unit]:
+        """ Returns list of heavy artillery batteries"""
+
         return [
             Unit(),
             PositionArtilleryBattery(),
             PositionArtilleryHalfBattery()
         ]
 
-    def unicorn_battery_list(self):
+    def unicorn_battery_list(self) -> list[Unit]:
+        """ Returns list of unicorn batteries"""
+
         return [
             Unit(),
             UnicornFieldBattery(),
             UnicornHeavyBattery()
         ]
 
-    def horse_battery_list(self):
+    def horse_battery_list(self) -> list[Unit]:
+        """ Returns list of horse artillery batteries"""
+
         return [
             Unit(),
             HorseArtilleryBattery(),

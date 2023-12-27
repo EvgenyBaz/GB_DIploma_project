@@ -16,6 +16,8 @@ from model.army.rus.commanders.commander_skill8 import CommanderSkill8
 
 
 class InfantryBrigade(Brigade):
+    """ class describing the composition of the imperial guard infantry brigade.
+    commanders list and battalion list"""
 
     def __init__(self):
         # список командиров
