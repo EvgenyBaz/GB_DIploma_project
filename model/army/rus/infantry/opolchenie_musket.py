@@ -2,21 +2,23 @@ from model.army.infantry import Infantry
 
 
 class OpolchenieMusket(Infantry):
-    name = "Opolchenie with Musket"
+    """Class describes opolchenie with musket battalion """
+
+    name: str = "Opolchenie with Musket"
 
     def __init__(self):
-        self.type = "Regular Infantry"
-        self.armament = "Smoothbore Musket"
-        self.hand_to_hand = 5
-        self.shooting = 2
-        self.morale = 5
-        self.stamina = 3
-        self.special = {
+        self.type: str = "Regular Infantry"
+        self.armament: str = "Smoothbore Musket"
+        self.hand_to_hand: int = 5
+        self.shooting: int = 2
+        self.morale: int = 5
+        self.stamina: int = 3
+        self.special: set[str] = {
             "Militia",
             "Untested",
             "Unreliable",
             "Lacking Initiative"
         }
-        self.cost = 23
-        self.bonus = {}
-        self.bonus_cost = 0
+        self.cost: int = 23
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0

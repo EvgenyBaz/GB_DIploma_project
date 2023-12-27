@@ -2,7 +2,9 @@ from model.army.infantry import Infantry
 
 
 class LineInfantry(Infantry):
-    name = "Line Infantry"
+    """Class describes line infantry battalion """
+
+    name: str = "Line Infantry"
 
     def __init__(self):
         self.type: str = "Regular Infantry"
