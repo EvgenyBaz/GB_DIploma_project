@@ -1,18 +1,21 @@
 from model.army.artillery import Artillery
+
+
 class UnicornHeavyBattery(Artillery):
+    """Class describes unicorn heavy battery """
 
-    name = "Unicorn Heavy Battery"
+    name: str = "Unicorn Heavy Battery"
+
     def __init__(self):
-
-        self.type = "Regular Artillery"
-        self.armament = "Smoothbore Heavy Howitzer"
-        self.hand_to_hand = 1
-        self.shooting = (2, 2, 2)
-        self.morale = 4
-        self.stamina = 2
-        self.special = {
+        self.type: str = "Regular Artillery"
+        self.armament: str = "Smoothbore Heavy Howitzer"
+        self.hand_to_hand: int = 1
+        self.shooting: tuple[int, int, int] = (2, 2, 2)
+        self.morale: int = 4
+        self.stamina: int = 2
+        self.special: set[str] = {
             "20 pdr"
         }
-        self.cost = 27
-        self.bonus = {}
-        self.bonus_cost = 0
+        self.cost: int = 27
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0

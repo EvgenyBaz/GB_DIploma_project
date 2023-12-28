@@ -1,18 +1,22 @@
 from model.army.cavalry import Cavalry
-class Hussars(Cavalry):
-    name = "Hussars"
-    def __init__(self):
 
-        self.type = "Regular Cavalry"
-        self.armament = "Lance"
-        self.hand_to_hand = 6
-        self.shooting = 0
-        self.morale = 4
-        self.stamina = 3
-        self.special = {
+
+class Hussars(Cavalry):
+    """Class describes hussars regiment """
+
+    name: str = "Hussars"
+
+    def __init__(self):
+        self.type: str = "Regular Cavalry"
+        self.armament: str = "Lance"
+        self.hand_to_hand: int = 6
+        self.shooting: int = 0
+        self.morale: int = 4
+        self.stamina: int = 3
+        self.special: set[str] = {
             "Lancer",
             "Marauder"
         }
-        self.cost = 46
-        self.bonus = {}
-        self.bonus_cost = 0
+        self.cost: int = 46
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0

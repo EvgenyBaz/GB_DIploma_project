@@ -1,18 +1,22 @@
 from model.army.cavalry import Cavalry
-class Ulan(Cavalry):
-    name = "Ulan"
-    def __init__(self):
 
-        self.type = "Regular Cavalry"
-        self.armament = "Lance"
-        self.hand_to_hand = 7
-        self.shooting = 0
-        self.morale = 4
-        self.stamina = 3
-        self.special = {
+
+class Ulan(Cavalry):
+    """Class describes ulan regiment """
+
+    name: str = "Ulan"
+
+    def __init__(self):
+        self.type: str = "Regular Cavalry"
+        self.armament: str = "Lance"
+        self.hand_to_hand: int = 7
+        self.shooting: int = 0
+        self.morale: int = 4
+        self.stamina: int = 3
+        self.special: set[str] = {
             "Lancer",
             "Marauder"
         }
-        self.cost = 48
-        self.bonus = {}
-        self.bonus_cost = 0
+        self.cost: int = 48
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0
