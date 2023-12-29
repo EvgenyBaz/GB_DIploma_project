@@ -22,12 +22,19 @@ class Brigade:
         self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
 
     def get_brigade_bonus_to_battalion_list(self, bonus_name: str) -> list[str]:
-        """ Gets bonus_name: str and returns corresponding list of battalions names"""
+        """
+
+        :param bonus_name: name of bonus
+        :return: corresponding list of battalions names
+        """
 
         return self.brigade_bonus_battalion_correspondence[bonus_name]
 
     def get_brigade_bonus_list_names(self) -> list[str]:
-        """ Returns list of battalions bonus names"""
+        """
+
+        :return: list of battalions bonus names "
+        """
 
         bonus_names_list: list[str] = []
         for i in range(len(self.brigade_bonus_list)):
@@ -35,15 +42,23 @@ class Brigade:
         return bonus_names_list
 
     def get_brigade_bonus_list_costs(self) -> list[int]:
-        """ Returns list of battalions bonus costs"""
+        """
+
+        :return: list of battalions bonus costs
+        """
 
         bonus_cost_list: list[int] = []
         for i in range(len(self.brigade_bonus_list)):
+            # print("test:", self.brigade_bonus_list[i][1])
             bonus_cost_list.append(self.brigade_bonus_list[i][1])  # автопроверка дурит, второе значение в списке int
         return bonus_cost_list
 
     def get_brigade_bonus_costs(self, bonus_name: str) -> int:
-        """ Gets bonus_name: str and returns corresponding bonus cost"""
+        """
+
+        :param bonus_name: bonus name
+        :return: corresponding bonus cost
+        """
 
         bonus_cost: int = 0
         for i in range(len(self.brigade_bonus_list)):
@@ -53,7 +68,10 @@ class Brigade:
         return bonus_cost
 
     def get_list_commanders_names(self) -> list[str]:
-        """ Returns brigade commander names list"""
+        """
+
+        :return: brigade commander names list
+        """
 
         brigade_cmndrs_names: list[str] = []
         for cmndr in self.brigade_commanders_list:
@@ -61,30 +79,47 @@ class Brigade:
         return brigade_cmndrs_names
 
     def get_name_of_commander(self, index: int) -> str:
-        """ Gets  commander list index: int  and returns brigade commander name"""
+        """
+
+        :param index: commander list index:
+        :return: brigade commander name
+        """
 
         return self.brigade_commanders_list[index].get_name_of_commander()
 
     # по порядковому номеру в списке командиров возвращает его стоимость
     def get_costs_of_commander(self, index: int) -> int:
-        """ Gets  commander list index: int  and returns brigade commander cost"""
+        """
+
+        :param index: commander list index:
+        :return: brigade commander cost
+        """
 
         return self.brigade_commanders_list[index].get_cost_of_commander()
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return []
 
     def additional_battalion_list(self) -> list[Unit]:
-        """ Returns list of auxiliary battalions in the brigade"""
+        """
+
+        :return: list of auxiliary battalions in the brigade
+        """
 
         return []
 
     # создает список имен батальонов в зависимости от порядкового номера батальона в бригаде
     def get_list_battalion_names(self, order_number: int) -> list[str]:
-        """ Gets battalion order_number: int in the brigade and returns list of battalion names for current
-        order number"""
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: ist available for choosing battalion names for current order number
+        """
 
         brigade_bttln_list_names: list[str] = []
 
@@ -94,93 +129,146 @@ class Brigade:
 
     # помещает выбранный в интерфейсе батальон (объект) в список бригады на позицию соответствующую кнопке
     def set_battalion_to_list(self, order_number: int, bttln_choosen_from_list: int, shift: int):
-        """ Gets:
-         battalion - order_number: int,
-         number of chosen battalion form the list - bttln_choosen_from_list: int,
-         parameter of shift battalion choose int the list of battalions for current order number (by default = 0)
+        """
 
-         Places chosen battalion in the current brigade battalion list for corresponding place"""
+        :param order_number: battalion order number in the brigade
+        :param bttln_choosen_from_list: number of chosen battalion from the list
+        :param shift: parameter of shift battalion number in the list in the brigade battalion ( default = 0)
+        :return:  Places chosen battalion in the current brigade battalion list for corresponding place
+        """
 
         self.brigade_list[order_number] = self.brigade_list_battalion_list[order_number + shift][
             bttln_choosen_from_list]
 
     def get_cost_of_battalion(self, order_number: int) -> int:
-        """ Gets: battalion order_number: int in the brigade and returns its total cost (basic + bonuses) """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: battalion total cost (basic + bonuses)
+        """
 
         return self.brigade_list[order_number].cost + self.brigade_list[order_number].bonus_cost
 
     def get_name_of_battalion(self, order_number: int) -> str:
-        """ Gets: battalion order_number: int in the brigade and returns its name """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: battalion name
+        """
 
         return self.brigade_list[order_number].name
 
     def get_bonus_of_battalion(self, order_number: int) -> str:
-        """ Gets: battalion  order_number: int in the brigade and returns string with current battalion bonuses """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: string with current battalion bonuses
+        """
 
         return self.brigade_list[order_number].get_bonus_of_battalion()
 
     def get_presence_of_battalion(self, order_number: int) -> int:
-        """ Gets: battalion  order_number: int in the brigade and returns its presence (1 - yes, chosen; 0 - no ) """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: battalion presence (1 - yes, chosen; 0 - no )
+        """
 
         return self.brigade_list[order_number].presence
 
     def get_presence_of_commander(self, order_number: int) -> int:
-        """ Gets: commander order_number: int in the brigade commanders list and returns its presence
-        (1 - yes, chosen; 0 - no ) """
+        """
+
+        :param order_number: commander order number in the brigade commanders list
+        :return: commander presence (1 - yes, chosen; 0 - no )
+        """
 
         return self.brigade_commanders_list[order_number].presence
 
     # добавляем свойство в список бонусов батальона
     def set_battalion_bonus(self, bonus: str, order_number: int):
-        """ Gets: bonus: str name and battalion order_number: int in the brigade and put this bonus to list of
-        current battalion bonuses """
+        """
+
+        :param bonus: bonus name
+        :param order_number: battalion order number in the brigade
+        :return:put this bonus to list of current battalion bonuses
+        """
+
 
         self.brigade_list[order_number].bonus[bonus] = None
 
     # добавляем свойство в список бонусов батальона в общем списке бригады (используется при загрузке данных)
     def set_battalion_bonus_in_br_lists(self, bonus: str, place_number: int, order_number: int):
-        """ Gets: bonus: str name , place number : int - battalion number in the list of available battalions and
-        battalion order_number: int in the brigade and put this bonus to list of current battalion bonuses.
-        Using for load data process """
+        """
+
+        :param bonus: bonus name
+        :param place_number: battalion number in the list of available battalions
+        :param order_number: battalion order number in the brigade
+        :return: put this bonus to list of current battalion bonuses. Using for load data process
+        """
 
         self.brigade_list_battalion_list[place_number][order_number].bonus[bonus] = None
 
     def del_battalion_bonus(self, bonus: str, order_number: int):
-        """ Gets: bonus: str name and battalion order_number: int in the brigade.
-        Delete this bonus from list of current battalion bonuses """
+        """
+
+        :param bonus: bonus name
+        :param order_number: battalion order number in the brigade
+        :return: Delete this bonus from list of current battalion bonuses
+        """
 
         del self.brigade_list[order_number].bonus[bonus]
 
     # добавляем стоимость бонуса к общей стоимости бонусов батальона
     def add_bonus_cost_to_battalion(self, new_bonus_cost: int, order_number: int):
-        """ Gets: bonus_cost: int  and battalion order_number: int in the brigade.
-        Add cost of added bonus to the battalion bonus cost """
+        """
+
+        :param new_bonus_cost: added bonus cost
+        :param order_number: battalion order number in the brigade
+        :return: Add cost of added bonus to the battalion bonus cost.
+        """
 
         self.brigade_list[order_number].bonus_cost += new_bonus_cost
 
     # добавляем стоимость бонуса к общей стоимости бонусов батальона в общем списке бригады (используется при загрузке данных)
     def add_bonus_cost_to_battalionin_br_lists(self, new_bonus_cost: int, place_number: int, order_number: int):
-        """ Gets: bonus_cost: int, place number : int - battalion number in the list of available battalions and
-        battalion order_number: int in the brigade. Add cost of added bonus to the battalion bonus cost.
-        Using for load data process """
+        """
+
+        :param new_bonus_cost: added bonus cost
+        :param place_number: battalion number in the list of available battalions
+        :param order_number: battalion order number in the brigade
+        :return: Add cost of added bonus to the battalion bonus cost. Using for load data process
+        """
 
         self.brigade_list_battalion_list[place_number][order_number].bonus_cost += new_bonus_cost
 
     # возвращаем по запросу список всех бонусов батальона
     def get_bonus_list(self, order_number: int) -> dict:
-        """ Gets: battalion  order_number: int in the brigade  and return list of battalion bonuses (Dict)"""
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: list of battalion bonuses (Dict)
+        """
 
         return self.brigade_list[order_number].bonus
 
     def set_common_list_of_battalions(self, order_number: int):
-        """ Gets: battalion  order_number: int in the brigade and put Unit() object for first place of the available
-        battalions list. Using for first battalion in the brigade when commander is unchosen """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: put Unit() object for first place of the available battalions list. Using for first battalion in the
+        brigade when commander is unchosen
+        """
 
         self.brigade_list_battalion_list[order_number].insert(0, Unit())
 
 
     def set_list_of_battalions(self, order_number: int):
-        """ Gets: battalion  order_number: int in the brigade and object for first place of the available
-        battalions list. Using for first battalion in the brigade when commander is choosing """
+        """
+
+        :param order_number: battalion order number in the brigade
+        :return: delete object from first place of the available
+        battalions list. Using for first battalion in the brigade when commander is choosing
+        """
 
         self.brigade_list_battalion_list[order_number].pop(0)

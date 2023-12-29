@@ -12,7 +12,10 @@ class Division:
         self.division_commanders_list: list[BasicCommander] = []
 
     def get_list_commanders_names(self) -> list[str]:
-        """Returns list of division commanders names"""
+        """
+
+        :return: list of division commanders names
+        """
 
         division_cmndrs_names: list[str] = []
         for cmndr in self.division_commanders_list:
@@ -21,26 +24,45 @@ class Division:
 
     # по порядковому номеру в списке командиров возвращает имя
     def get_name_of_commander(self, index: int) -> str:
-        """Gets index: int - index of commander in the commanders list and returns the division commander name """
+        """
+        :param index: index of commander in the commanders list
+        :return: the division commander name
+        """
 
         return self.division_commanders_list[index].get_name_of_commander()
 
     # по порядковому номеру в списке командиров возвращает его стоимость
     def get_cost_of_commander(self, index: int) -> int:
-        """Gets index: int - index of commander in the commanders list and returns the division commander cost """
+        """
+
+        :param index: index of commander in the commanders list
+        :return: the division commander cost
+        """
 
         return self.division_commanders_list[index].get_cost_of_commander()
 
     def get_skills_of_commander(self, index: int) -> str:
-        """Gets index: int - index of commander in the commanders list and returns his skills as string"""
+        """
+
+        :param index: index of commander in the commanders list
+        :return: commander's skills as string
+        """
+
         return self.division_commanders_list[index].get_skills_of_commander()
 
     def get_list_of_division(self) -> list[Brigade]:
-        """Returns  division brigades list"""
+        """
+
+        :return: division brigades list
+        """
 
         return self.division_list
 
     def get_brigade(self, brigade_order: int) -> Brigade:
-        """Gets brigade_order: int in the division list and returns corresponding brigade"""
+        """
+
+        :param brigade_order: brigade order in the division list
+        :return: corresponding brigade
+        """
 
         return self.division_list[brigade_order]

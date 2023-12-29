@@ -11,17 +11,26 @@ class BasicCommander:
         }
 
     def get_cost_of_commander(self) -> int:
-        """ Returns current commander cost"""
+        """
+
+        :return: current commander cost
+        """
 
         return self.cost
 
     def get_name_of_commander(self) -> str:
-        """ Returns current commander name"""
+        """
+
+        :return: current commander name
+        """
 
         return self.name
 
     def get_skills_of_commander(self) -> str:
-        """ Returns string with commander skills"""
+        """
+
+        :return: string with commander skills"
+        """
 
         skills = "  "
         for k in self.special:

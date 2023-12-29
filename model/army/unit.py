@@ -19,12 +19,18 @@ class Unit:
         self.bonus_cost: int = 0
 
     def get_cost_of_battalion(self) -> int:
-        """ Returns the battalion cost """
+        """
+
+        :return: the battalion cost
+        """
 
         return self.cost
 
     def get_bonus_of_battalion(self) -> str:
-        """ Returns string with battalion bonuses """
+        """
+
+        :return: string with battalion bonuses
+        """
 
         result = "  "
         for bonus in self.bonus:
@@ -33,7 +39,10 @@ class Unit:
 
     @classmethod
     def get_name_of_battalion(cls) -> str:
-        """ Returns the battalion name """
+        """
+
+        :return:  the battalion name
+        """
 
         return cls.name
 

@@ -11,7 +11,9 @@ from view.E_message import MessageWindow
 
 from view.brigades.brigade_view import brigade_bttln_Lists
 
+
 class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
+
     def __init__(self, *args, obj=None, **kwargs):
         super(RusDivisionWindow, self).__init__(*args, **kwargs)
 
@@ -258,9 +260,6 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         self.EarthWorks1.currentIndexChanged.connect(self.earthworks1CostView)
         self.EarthWorks2.currentIndexChanged.connect(self.earthworks2CostView)
 
-
-
-
     # заполняем список имен командиров дивизии
     def division_cmndrs_list(self):
         cmndrs_list = self.presenter.DivisionCmndrsNamesList()
@@ -305,6 +304,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         self.artilleryBatteryVisible()
         self.earthworksVisible()
         self.imperialGuardBgigadesVisible()
+
     def artilleryBatteryVisible(self):
 
         number_of_infantry_battalions = self.a_brgd_nmbr_of_battalions + self.b_brgd_nmbr_of_battalions + \
@@ -439,6 +439,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.ImpGrdHCavBrgdCmndr.setCurrentIndex(0)
             self.ImpGrdHCavBrgdCmndr.setDisabled(True)
     # ------------------------------------------------------------------------------------------------------------------
+
     def brgdCommanderCostView(self, index, brigade_number, brgdCmndrCost):
         value = self.presenter.BrigadeCmndrsCost(index, brigade_number)
         brgdCmndrCost.setText(str(value))
@@ -447,7 +448,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
                           brgdTotalCostView, order_number, bttlnModPushButton):
         # отправляем индекс в презентер для передачи в модель чтобы поместить соотетствующий батальон на его место в бригаде
         # order_number =  порядковое место в бригаде
-        # индекс выбранного баталльона из списка
+        # индекс выбранного батальона из списка
         self.presenter.BrigadeBttlnChoosen(order_number, bttln_choosen_from_list, brigade_number)
         # отправляем запрос стоимости батальона стоящего на соответствующем месте в бригаде
         value = self.presenter.BrigadeBttlnCost(order_number, brigade_number)
@@ -457,8 +458,8 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         if bttlnModPushButton != None:
             self.check_bttln_bonus_for_button_color(order_number, brigade_number, bttlnModPushButton)
 
-
     # -------------------------------------------------------------------------------------------------------------------
+
     def a_brigade_bttln_Lists(self):
         a_brgd_bttlns_list =[self.aBrgdFirstBattalion,
                              self.aBrgdSecondBattalion,
@@ -506,7 +507,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         else:
             if self.a_battalion_index_add == 0:
-            # убираем обьект empty из списка выбора
+                # убираем обьект empty из списка выбора
                 self.aBrgdFirstBattalion.clear()
                 self.presenter.FirstBttlnListChangeToShow(0, self.a_brigade_number)
                 bttln_list = self.presenter.BrigadeBttlnList(0, self.a_brigade_number)
