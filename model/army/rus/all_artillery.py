@@ -69,7 +69,10 @@ class AllArtillery(Brigade):
         self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
 
     def light_battery_list(self) -> list[Unit]:
-        """ Returns list of light artillery batteries"""
+        """
+
+        :return: list of light artillery batteries
+        """
 
         return [
             Unit(),
@@ -78,7 +81,10 @@ class AllArtillery(Brigade):
         ]
 
     def heavy_battery_list(self) -> list[Unit]:
-        """ Returns list of heavy artillery batteries"""
+        """
+
+        :return: list of heavy artillery batteries
+        """
 
         return [
             Unit(),
@@ -87,7 +93,10 @@ class AllArtillery(Brigade):
         ]
 
     def unicorn_battery_list(self) -> list[Unit]:
-        """ Returns list of unicorn batteries"""
+        """
+
+        :return: list of unicorn batteries
+        """
 
         return [
             Unit(),
@@ -96,7 +105,10 @@ class AllArtillery(Brigade):
         ]
 
     def horse_battery_list(self) -> list[Unit]:
-        """ Returns list of horse artillery batteries"""
+        """
+
+        :return: list of horse artillery batteries
+        """
 
         return [
             Unit(),

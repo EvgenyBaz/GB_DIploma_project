@@ -60,7 +60,10 @@ class LifeGuardInfantryBrigade(Brigade):
              }
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -69,7 +72,10 @@ class LifeGuardInfantryBrigade(Brigade):
         ]
 
     def additional_light_artillery_list(self) -> list[Unit]:
-        """ Returns list of additional light artillery in the brigade"""
+        """
+
+        :return: list of additional light artillery in the brigade
+        """
 
         return [
             Unit(),
@@ -78,7 +84,10 @@ class LifeGuardInfantryBrigade(Brigade):
         ]
 
     def additional_heavy_artillery_list(self) -> list[Unit]:
-        """ Returns list of additional heavy artillery in the brigade"""
+        """
+
+        :return: list of additional heavy artillery in the brigade
+        """
 
         return [
             Unit(),

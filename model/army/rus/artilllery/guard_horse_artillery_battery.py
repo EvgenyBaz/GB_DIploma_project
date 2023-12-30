@@ -19,6 +19,6 @@ class GuardHorseArtilleryBattery(Artillery):
             "Elite 4+",
             'Large'
         }
-        self.cost = 51
-        self.bonus = {}
-        self.bonus_cost = 0
+        self.cost: int = 51
+        self.bonus: dict = {}
+        self.bonus_cost: int = 0

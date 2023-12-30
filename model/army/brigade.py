@@ -25,7 +25,7 @@ class Brigade:
         """
 
         :param bonus_name: name of bonus
-        :return: corresponding list of battalions names
+        :return: corresponding to bonus list of battalions names
         """
 
         return self.brigade_bonus_battalion_correspondence[bonus_name]

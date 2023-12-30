@@ -27,7 +27,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         self.presenter = Presenter(self.country)
 
         self.generalName.currentIndexChanged.connect(self.divisionCommanderCostView)
-        # изменяемая переменная для прхождения проверки  - используется для кавполков с неоднозначным выбором первоко полка в списке, при изменении списка
+        # изменяемая переменная для прхождения проверки  - используется для кавполков с неоднозначным выбором первого полка в списке, при изменении списка
         self.a_brigade_number = 0  # номер бригады попорядку
         self.a_battalion_index_add = 0
 
@@ -262,16 +262,33 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     # заполняем список имен командиров дивизии
     def division_cmndrs_list(self):
-        cmndrs_list = self.presenter.DivisionCmndrsNamesList()
+        """
+
+        :return: GUI list with division commanders names
+        """
+
+        cmndrs_list: list[str] = self.presenter.DivisionCmndrsNamesList()
         for cmndrName in cmndrs_list:
             self.generalName.addItem(cmndrName)
 
-    def divisionCommanderCostView(self, index):
-        value = self.presenter.DivisionCmndrCost(index)
+    def divisionCommanderCostView(self, index: int):
+        """
+
+        :param index: chosen commander index in the commanders list:
+        :return: the division commander cost
+        """
+
+        value: int = self.presenter.DivisionCmndrCost(index)
         self.generalCost.setText(str(value))
         self.divisionTotalCostView()
 
     def divisionTotalCostView(self):
+        """
+
+        :return: Division total cost to GUI. Calculates relation army unis and guard units and show this percentage
+         relations in GUI. Send request for checking to visibility sealed brigades, artillery and earthworks
+        """
+
         army_part_of_ivision_total_cost = int(self.aBrgdTotalCost.text()) + \
                      int(self.bBrgdTotalCost.text()) + int(self.cBrgdTotalCost.text()) + \
                      int(self.JgrBrgdTotalCost.text()) + int(self.CombGrndrBrgdTotalCost.text()) + \
@@ -284,6 +301,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
                                            int(self.ImpGrdHCavBrgdTotalCost.text())
 
         self.division_total_cost = army_part_of_ivision_total_cost + guard_part_of_ivision_total_cost + int(self.generalCost.text())
+
         if self.division_total_cost > 1000:
             self.divisionTotalCost.setStyleSheet("background-color : yellow ")
         else:
@@ -300,12 +318,17 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         total_cost = self.division_total_cost + self.earthworks_total_cost
 
-        self.divisionTotalCost.setText(str(total_cost))
+        self.divisionTotalCost.setText(str(total_cost)) # <- value to GUI
         self.artilleryBatteryVisible()
         self.earthworksVisible()
         self.imperialGuardBgigadesVisible()
 
     def artilleryBatteryVisible(self):
+        """
+
+        :return: open or close possibility to add artillery units in the division list due to number of infantry ar
+         cavalry units chosen
+        """
 
         number_of_infantry_battalions = self.a_brgd_nmbr_of_battalions + self.b_brgd_nmbr_of_battalions + \
                                         self.c_brgd_nmbr_of_battalions + self.jgr_brgd_nmbr_of_battalions + \
@@ -405,6 +428,10 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.HorseArtilleryBattery3.setDisabled(True)
 
     def earthworksVisible(self):
+        """
+
+        :return: open or close possibility to add earthworks in the division list due to army point number chosen
+        """
 
         if self.division_total_cost > 499:
             self.EarthWorks1.setDisabled(False)
@@ -419,6 +446,12 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.EarthWorks2.setDisabled(True)
 
     def imperialGuardBgigadesVisible(self):
+        """
+
+        :return: open or close possibility to add Imperial Gueard brigades in the division list due to number of army's
+         brigades chosen
+        """
+
         commanders_list = [self.aBrgdCmndr, self.bBrgdCmndr, self.cBrgdCmndr,
                            self.JgrBrgdCmndr, self.CombGrndrBrgdCmndr, self.GrndrBrgdCmndr]
 
@@ -440,12 +473,19 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.ImpGrdHCavBrgdCmndr.setDisabled(True)
     # ------------------------------------------------------------------------------------------------------------------
 
-    def brgdCommanderCostView(self, index, brigade_number, brgdCmndrCost):
+    def brgdCommanderCostView(self, index: int, brigade_number: int, brgdCmndrCost): # brgdCmndrCost текстовое поле в GUI соответствующее выбранной бригаде
+        """
+
+        :param index: chosen commander index in the commanders list:
+        :param brigade_number: brigade number in the division list
+        :param brgdCmndrCost: GUI text field name for chosen brigade
+        :return: put brigade total cost to corresponding GUI text field
+        """
         value = self.presenter.BrigadeCmndrsCost(index, brigade_number)
         brgdCmndrCost.setText(str(value))
 
     def brgdBttlnCostView(self, bttln_choosen_from_list, brigade_number, brgdBattalionCost,
-                          brgdTotalCostView, order_number, bttlnModPushButton):
+                          brgdTotalCostView, order_number, bttlnModPushButton = None):
         # отправляем индекс в презентер для передачи в модель чтобы поместить соотетствующий батальон на его место в бригаде
         # order_number =  порядковое место в бригаде
         # индекс выбранного батальона из списка
@@ -455,7 +495,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         # записываем в соответствующее поле значение стоимости батальона
         brgdBattalionCost.setText(str(value))
         brgdTotalCostView()
-        if bttlnModPushButton != None:
+        if bttlnModPushButton is not None:
             self.check_bttln_bonus_for_button_color(order_number, brigade_number, bttlnModPushButton)
 
     # -------------------------------------------------------------------------------------------------------------------
@@ -513,7 +553,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
                 bttln_list = self.presenter.BrigadeBttlnList(0, self.a_brigade_number)
                 for bttlnName in bttln_list:
                     self.aBrgdFirstBattalion.addItem(bttlnName)
-                # сдвигаем на единицу номер выбираемого кав полка чтобы пройти проверку при нажатии на кнопку модификаци
+                # сдвигаем на единицу номер выбираемого кав полка, чтобы пройти проверку при нажатии на кнопку модификаци
                 self.a_battalion_index_add = 1
 
             self.aBrgdFirstBattalion.setDisabled(False)
@@ -1042,11 +1082,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     def jgrBrgdAdd1BttlnCostView(self, bttln_choosen_from_list):
         self.brgdBttlnCostView(bttln_choosen_from_list, self.jgr_brigade_number,
-                               self.JgrBrgdAdd1BattalionCost, self.jgrBrgdTotalCostView, 6, None)
+                               self.JgrBrgdAdd1BattalionCost, self.jgrBrgdTotalCostView, 6)
 
     def jgrBrgdAdd2BttlnCostView(self, bttln_choosen_from_list):
         self.brgdBttlnCostView(bttln_choosen_from_list, self.jgr_brigade_number,
-                               self.JgrBrgdAdd2BattalionCost, self.jgrBrgdTotalCostView, 7, None)
+                               self.JgrBrgdAdd2BattalionCost, self.jgrBrgdTotalCostView, 7)
 
     def jgrBrgdTotalCostView(self):
         total_cost = self.presenter.BrigadeCmndrsCost(self.JgrBrgdCmndr.currentIndex(),
@@ -2020,11 +2060,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     def impGrdInfBrgdAdd1BttlnCostView(self, bttln_choosen_from_list):
         self.brgdBttlnCostView(bttln_choosen_from_list, self.imp_grd_inf_brigade_number,
-                               self.ImpGrdInfBrgdAdd1BattalionCost, self.impGrdInfBrgdTotalCostView, 6, None)
+                               self.ImpGrdInfBrgdAdd1BattalionCost, self.impGrdInfBrgdTotalCostView, 6)
 
     def impGrdInfBrgdAdd2BttlnCostView(self, bttln_choosen_from_list):
         self.brgdBttlnCostView(bttln_choosen_from_list, self.imp_grd_inf_brigade_number,
-                               self.ImpGrdInfBrgdAdd2BattalionCost, self.impGrdInfBrgdTotalCostView, 7, None)
+                               self.ImpGrdInfBrgdAdd2BattalionCost, self.impGrdInfBrgdTotalCostView, 7)
 
 
     def impGrdInfBrgdTotalCostView(self):
@@ -2263,78 +2303,78 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     def artLightBattery1CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost1, self.ArtilleryTotalCost, 0, None)
+                               self.LightArtBttryCost1, self.ArtilleryTotalCost, 0)
 
     def artLightBattery2CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost2, self.ArtilleryTotalCost, 1, None)
+                               self.LightArtBttryCost2, self.ArtilleryTotalCost, 1)
 
     def artLightBattery3CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost3, self.ArtilleryTotalCost, 2, None)
+                               self.LightArtBttryCost3, self.ArtilleryTotalCost, 2)
 
     def artLightBattery4CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost4, self.ArtilleryTotalCost, 3, None)
+                               self.LightArtBttryCost4, self.ArtilleryTotalCost, 3)
 
     def artLightBattery5CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost5, self.ArtilleryTotalCost, 4, None)
+                               self.LightArtBttryCost5, self.ArtilleryTotalCost, 4)
 
     def artLightBattery6CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.LightArtBttryCost6, self.ArtilleryTotalCost, 5, None)
+                               self.LightArtBttryCost6, self.ArtilleryTotalCost, 5)
 
     def artHeavyBattery1CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HvyArtBttryCost1, self.ArtilleryTotalCost, 6, None)
+                               self.HvyArtBttryCost1, self.ArtilleryTotalCost, 6)
 
     def artHeavyBattery2CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HvyArtBttryCost2, self.ArtilleryTotalCost, 7, None)
+                               self.HvyArtBttryCost2, self.ArtilleryTotalCost, 7)
 
     def artHeavyBattery3CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HvyArtBttryCost3, self.ArtilleryTotalCost, 8, None)
+                               self.HvyArtBttryCost3, self.ArtilleryTotalCost, 8)
 
     def artHeavyBattery4CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HvyArtBttryCost4, self.ArtilleryTotalCost, 9, None)
+                               self.HvyArtBttryCost4, self.ArtilleryTotalCost, 9)
 
     def unicornBattery1CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost1, self.ArtilleryTotalCost, 10, None)
+                               self.UnicornBttryCost1, self.ArtilleryTotalCost, 10)
     def unicornBattery2CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost2, self.ArtilleryTotalCost, 11, None)
+                               self.UnicornBttryCost2, self.ArtilleryTotalCost, 11)
 
     def unicornBattery3CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost3, self.ArtilleryTotalCost, 12, None)
+                               self.UnicornBttryCost3, self.ArtilleryTotalCost, 12)
 
     def unicornBattery4CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost4, self.ArtilleryTotalCost, 13, None)
+                               self.UnicornBttryCost4, self.ArtilleryTotalCost, 13)
 
     def unicornBattery5CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost5, self.ArtilleryTotalCost, 14, None)
+                               self.UnicornBttryCost5, self.ArtilleryTotalCost, 14)
 
     def unicornBattery6CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.UnicornBttryCost6, self.ArtilleryTotalCost, 15, None)
+                               self.UnicornBttryCost6, self.ArtilleryTotalCost, 15)
 
     def horseArtBattery1CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HorseArtBttryCost1, self.ArtilleryTotalCost, 16, None)
+                               self.HorseArtBttryCost1, self.ArtilleryTotalCost, 16)
 
     def horseArtBattery2CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HorseArtBttryCost2, self.ArtilleryTotalCost, 17, None)
+                               self.HorseArtBttryCost2, self.ArtilleryTotalCost, 17)
 
     def horseArtBattery3CostView(self, battery_choosen_from_list):
         self.brgdBttlnCostView(battery_choosen_from_list, self.artillery_quasy_brigade_number,
-                               self.HorseArtBttryCost3, self.ArtilleryTotalCost, 18, None)
+                               self.HorseArtBttryCost3, self.ArtilleryTotalCost, 18)
 
 
     def ArtilleryTotalCost(self):
@@ -2342,6 +2382,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         self.divisionTotalCostView()
 
     #--------------------------------------------------------------------------------------------------------------------
+
     def earth_works_Lists(self):
         earthworks_list = [self.EarthWorks1, self.EarthWorks2]
         brigade_bttln_Lists(self.earthworks_quasy_brigade_number, self.presenter, None, earthworks_list)
@@ -2349,11 +2390,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
     def earthworks1CostView(self, battery_choosen_from_list):
 
         self.brgdBttlnCostView(battery_choosen_from_list, self.earthworks_quasy_brigade_number,
-                                   self.EarthWorks1Cost, self.EarthWorksTotalCost, 0, None)
+                                   self.EarthWorks1Cost, self.EarthWorksTotalCost, 0)
     def earthworks2CostView(self, battery_choosen_from_list):
 
         self.brgdBttlnCostView(battery_choosen_from_list, self.earthworks_quasy_brigade_number,
-                                   self.EarthWorks2Cost, self.EarthWorksTotalCost, 1, None)
+                                   self.EarthWorks2Cost, self.EarthWorksTotalCost, 1)
 
     def EarthWorksTotalCost(self):
         self.earthworks_total_cost = sum(self.presenter.BrigadeBttlnCost(i, self.earthworks_quasy_brigade_number) for i in range(2))
@@ -2524,7 +2565,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         # проверка если чекбокс нажат и такого бонуса еще нет в списке бонусов батальона, то в окне отображения бонусов показывается стоимость с бонусом ()
         # предварительно, эта стоимость еще не применилась к батальону
-        # если чекбокс нажат и такой бонус уже есть, то показывается стоимость взятая из обьекта батальон
+        # если чекбокс нажат и такой бонус уже есть, то показывается стоимость взятая из объекта батальон
         if self.bonuses_checkboxes_in_window[order_number].isChecked():
             if self.btln_bonus_list[order_number] not in self.temporary_bonus_list:
                 self.temporary_bonus_cost += self.btln_bonus_cost_list[order_number]  # к временной стоимости прибавляем стоимость бонуса

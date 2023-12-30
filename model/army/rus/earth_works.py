@@ -31,7 +31,10 @@ class EarthWorks(Brigade):
         self.brigade_bonus_battalion_correspondence: dict[str: list[str]] = {}
 
     def earth_works_list(self) -> list[Unit]:
-        """ Returns list of earthworks in the brigade"""
+        """
+
+        :return: list of earthworks in the brigade
+        """
 
         return [
             Unit(),

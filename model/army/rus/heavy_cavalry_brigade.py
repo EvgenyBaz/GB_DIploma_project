@@ -53,7 +53,10 @@ class HeavyCavalryBrigade(Brigade):
              }
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -63,7 +66,10 @@ class HeavyCavalryBrigade(Brigade):
         ]
 
     def third_battalion_list(self) -> list[Unit]:
-        """ Returns list of battalions at third place in the brigade"""
+        """
+
+        :return: list of battalions at third place in the brigade
+        """
 
         return [
             Unit(),

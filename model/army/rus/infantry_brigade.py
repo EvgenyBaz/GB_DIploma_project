@@ -73,7 +73,10 @@ class InfantryBrigade(Brigade):
              }
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -81,7 +84,10 @@ class InfantryBrigade(Brigade):
         ]
 
     def additional_battalion_list(self) -> list[Unit]:
-        """ Returns list of auxiliary battalions in the brigade"""
+        """
+
+        :return: list of auxiliary battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -95,7 +101,10 @@ class InfantryBrigade(Brigade):
         ]
 
     def additional_jgr_battalion_list(self) -> list[Unit]:
-        """ Returns list of special auxiliary battalions in the brigade"""
+        """
+
+        :return: list of special auxiliary battalions in the brigade
+        """
 
         return [
             Unit(),

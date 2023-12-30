@@ -50,7 +50,10 @@ class LifeGuadHeavyCavalryBrigade(Brigade):
              }
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -62,7 +65,10 @@ class LifeGuadHeavyCavalryBrigade(Brigade):
         ]
 
     def first_battalion_list(self) -> list[Unit]:
-        """ Returns list of battalions at first place in the brigade"""
+        """
+
+        :return: list of battalions at first place in the brigade
+        """
 
         return [
             Unit(),

@@ -56,7 +56,10 @@ class JagerBrigade(Brigade):
              "Small": [Jager.get_name_of_battalion()]}
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -64,7 +67,10 @@ class JagerBrigade(Brigade):
         ]
 
     def additional_battalion_list(self) -> list[Unit]:
-        """ Returns list of auxiliary battalions in the brigade"""
+        """
+
+        :return: list of auxiliary battalions in the brigade
+        """
 
         return [
             Unit(),

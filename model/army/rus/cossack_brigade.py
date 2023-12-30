@@ -54,7 +54,10 @@ class CossackBrigade(Brigade):
 
 
     def main_battalion_list(self) -> list[Unit]:
-        """ Returns list of core battalions in the brigade"""
+        """
+
+        :return: list of core battalions in the brigade
+        """
 
         return [
             Unit(),
@@ -63,7 +66,10 @@ class CossackBrigade(Brigade):
         ]
 
     def first_battalion_list(self) -> list[Unit]:
-        """ Returns list of battalions for first position in the brigade"""
+        """
+
+        :return: list of battalions for first position in the brigade
+        """
 
         return [
             Unit(),
