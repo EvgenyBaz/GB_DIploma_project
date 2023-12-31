@@ -1,5 +1,13 @@
 
-def brigade_bttln_Lists(brigade_number, presenter, brgdCmndr, brgdBattalionsList):
+def brigade_bttln_Lists(brigade_number: int, presenter, brgdCmndr, brgdBattalionsList):
+    """
+
+    :param brigade_number: brigade number in the division list
+    :param presenter: presenter object
+    :param brgdCmndr: GUI combo box for brigade commander names
+    :param brgdBattalionsList: list of GUI combo boxes for battalions name showing
+    :return: fill GUI combo boxes lists for chosen brigade commander and battalions variants
+    """
     # задаем возможны варианты имен командиров
 
     if brgdCmndr != None:

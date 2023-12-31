@@ -478,16 +478,27 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         :param index: chosen commander index in the commanders list:
         :param brigade_number: brigade number in the division list
-        :param brgdCmndrCost: GUI text field name for chosen brigade
-        :return: put brigade total cost to corresponding GUI text field
+        :param brgdCmndrCost: GUI text field name for chosen brigade commander cost
+        :return: put brigade commander cost to corresponding GUI text field
         """
         value = self.presenter.BrigadeCmndrsCost(index, brigade_number)
         brgdCmndrCost.setText(str(value))
 
-    def brgdBttlnCostView(self, bttln_choosen_from_list, brigade_number, brgdBattalionCost,
-                          brgdTotalCostView, order_number, bttlnModPushButton = None):
+    def brgdBttlnCostView(self, bttln_choosen_from_list: int, brigade_number: int, brgdBattalionCost,
+                          brgdTotalCostView, order_number: int, bttlnModPushButton = None):
+        """
+
+        :param bttln_choosen_from_list: battalion number taken from GUI
+        :param brigade_number: brigade number in the division list
+        :param brgdBattalionCost: GUI text field name for chosen battalion cost
+        :param brgdTotalCostView: GUI text field name for chosen brigade total cost
+        :param order_number: battalion number in the brigade list
+        :param bttlnModPushButton: GUI button for current battalion modifications
+        :return: set battalion chosen in GUI ti its place in the brigade battalions list and shows in GUI chosen
+        battalion cost
+        """
         # отправляем индекс в презентер для передачи в модель чтобы поместить соотетствующий батальон на его место в бригаде
-        # order_number =  порядковое место в бригаде
+        # order_number =  порядковое место батальона в бригаде
         # индекс выбранного батальона из списка
         self.presenter.BrigadeBttlnChoosen(order_number, bttln_choosen_from_list, brigade_number)
         # отправляем запрос стоимости батальона стоящего на соответствующем месте в бригаде
@@ -501,6 +512,12 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
     # -------------------------------------------------------------------------------------------------------------------
 
     def a_brigade_bttln_Lists(self):
+        """
+
+        :return: collect information about first line infantry brigade GUI windows and call function show information on
+         GUI
+        """
+        # список имен окон для отображения батальонов первой линейной пехотной бригады
         a_brgd_bttlns_list =[self.aBrgdFirstBattalion,
                              self.aBrgdSecondBattalion,
                              self.aBrgdThirdBattalion,
@@ -510,7 +527,14 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         brigade_bttln_Lists(self.a_brigade_number, self.presenter, self.aBrgdCmndr, a_brgd_bttlns_list)
 
-    def aBrgdCommanderCostView(self, index):
+    def aBrgdCommanderCostView(self, index: int):
+        """
+
+        :param index: chosen commander index in the commanders list
+        :return: put first line infantry brigade commander cost to corresponding GUI text field, seal or unseal
+        battalions windows for choosing, put mandatory battalions for theirs places
+        """
+
         self.brgdCommanderCostView(index, self.a_brigade_number, self.aBrgdCmndrCost)
         self.aBrgdTotalCostView()
         if self.aBrgdCmndr.currentIndex() < 1:
@@ -547,7 +571,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
         else:
             if self.a_battalion_index_add == 0:
-                # убираем обьект empty из списка выбора
+                # убираем объект empty из списка выбора
                 self.aBrgdFirstBattalion.clear()
                 self.presenter.FirstBttlnListChangeToShow(0, self.a_brigade_number)
                 bttln_list = self.presenter.BrigadeBttlnList(0, self.a_brigade_number)
@@ -564,23 +588,58 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
 
 
-    def aBrgd1stBttlnCostView(self, bttln_choosen_from_list):
+    def aBrgd1stBttlnCostView(self, bttln_choosen_from_list: int):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 1st battalion chosen in GUI to its place in the 1st line infantry brigade battalions list and shows
+         in GUI chosen battalion cost
+        """
+
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdFirstBattalionCost, self.aBrgdTotalCostView, 0, self.aBrFirstBttlnModPushButton)
 
-    def aBrgd2ndBttlnCostView(self, bttln_choosen_from_list):
+    def aBrgd2ndBttlnCostView(self, bttln_choosen_from_list: int):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 2nd battalion chosen in GUI to its place in the 1st line infantry brigade battalions list and shows
+         in GUI chosen battalion cost
+        """
+
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdSecondBattalionCost, self.aBrgdTotalCostView, 1, self.aBrSecondBttlnModPushButton)
 
-    def aBrgd3rdBttlnCostView(self, bttln_choosen_from_list):
+    def aBrgd3rdBttlnCostView(self, bttln_choosen_from_list: int):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 3rd battalion chosen in GUI to its place in the 1st line infantry brigade battalions list and shows
+         in GUI chosen battalion cost
+        """
+
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdThirdBattalionCost, self.aBrgdTotalCostView, 2, self.aBrThirdBttlnModPushButton)
 
-    def aBrgd4thBttlnCostView(self, bttln_choosen_from_list):
+    def aBrgd4thBttlnCostView(self, bttln_choosen_from_list: int):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 4th battalion chosen in GUI to its place in the 1st line infantry brigade battalions list and shows
+         in GUI chosen battalion cost
+        """
+
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdFourthBattalionCost, self.aBrgdTotalCostView, 3, self.aBrFourthBttlnModPushButton)
 
     def aBrgdAddBttlnCostView(self, bttln_choosen_from_list):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 1st auxiliary battalion chosen in GUI to its place in the 1st line infantry brigade battalions list
+        and shows in GUI chosen battalion cost
+        """
+
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdAddBattalionCost, self.aBrgdTotalCostView, 4, self.aBrAddBttlnModPushButton)
         if self.aBrgdAdditionalBattalion.currentText() == "Jager":
@@ -590,12 +649,25 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.aBrgdJgrAdditionalBattalion.setDisabled(True)
 
 
-    def aBrgdJgrAddBttlnCostView(self, bttln_choosen_from_list):
+    def aBrgdJgrAddBttlnCostView(self, bttln_choosen_from_list: int):
+        """
+
+        :param bttln_choosen_from_list: battalion index in the list of GUI combo box
+        :return: set 2nd auxiliary battalion chosen in GUI to its place in the 1st line infantry brigade battalions list
+        and shows in GUI chosen battalion cost
+        """
         self.brgdBttlnCostView(bttln_choosen_from_list, self.a_brigade_number,
                                self.aBrgdJgrAddBattalionCost, self.aBrgdTotalCostView, 5, self.aBrJgrAddBttlnModPushButton)
 
     def aBrgdTotalCostView(self):
-        total_cost = self.presenter.BrigadeCmndrsCost(self.aBrgdCmndr.currentIndex(), self.a_brigade_number) + \
+        """
+
+        :return: collect and show total brigade cost as commander cost plus cost of all chosen battalion (together with
+         bonuses applied). Calculate battalions presence number in tge 1st line infantry brigade. Call total division
+        cost function
+        """
+
+        total_cost: int = self.presenter.BrigadeCmndrsCost(self.aBrgdCmndr.currentIndex(), self.a_brigade_number) + \
                      sum(self.presenter.BrigadeBttlnCost(i, self.a_brigade_number) for i in range(6))
 
         self.a_brgd_nmbr_of_battalions = (sum(self.presenter.BrigadeBttlnPresence(i, self.a_brigade_number) for i in range(6)))
@@ -604,7 +676,12 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         self.divisionTotalCostView()
 
     def a_the_first_bttln_mod_button_was_clicked(self):
-        if self.aBrgdFirstBattalion.currentIndex()+ self.a_battalion_index_add != 0:
+        """
+
+        :return: open window with bonuses list available for 1st battalion of 1st line infantry brigade
+        """
+
+        if self.aBrgdFirstBattalion.currentIndex() + self.a_battalion_index_add != 0:
             battalion_order = "First Battalion"
             self.order_number = 0  # первый по порядку батальон
             self.brgdFirstBattalionCostSetText = self.aBrgdFirstBattalionCost.setText
@@ -612,6 +689,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.bttln_mod_button_was_clicked(battalion_order, self.a_brigade_number, self.aBrFirstBttlnModPushButton, self.aBrgdFirstBattalion.currentText(), self.order_number)
 
     def a_the_second_bttln_mod_button_was_clicked(self):
+        """
+
+        :return: open window with bonuses list available for 2nd battalion of 1st line infantry brigade
+        """
+
         if self.aBrgdSecondBattalion.currentIndex() != 0:
             battalion_order = "Second Battalion"
             self.order_number = 1  # второй по порядку батальон
@@ -620,6 +702,10 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.bttln_mod_button_was_clicked(battalion_order, self.a_brigade_number, self.aBrSecondBttlnModPushButton, self.aBrgdSecondBattalion.currentText(), self.order_number)
 
     def a_the_third_bttln_mod_button_was_clicked(self):
+        """
+
+        :return: open window with bonuses list available for 3rd battalion of 1st line infantry brigade
+        """
         if self.aBrgdThirdBattalion.currentIndex() != 0:
             battalion_order = "Third Battalion"
             self.order_number = 2  # третий по порядку батальон
@@ -628,6 +714,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.bttln_mod_button_was_clicked(battalion_order, self.a_brigade_number, self.aBrThirdBttlnModPushButton, self.aBrgdThirdBattalion.currentText(), self.order_number)
 
     def a_the_fourth_bttln_mod_button_was_clicked(self):
+        """
+
+        :return: open window with bonuses list available for 4th battalion of 1st line infantry brigade
+        """
+
         if self.aBrgdFourthBattalion.currentIndex() != 0:
             battalion_order = "Fourth Battalion"
             self.order_number = 3  # четвертый по порядку батальон
@@ -636,6 +727,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.bttln_mod_button_was_clicked(battalion_order, self.a_brigade_number, self.aBrFourthBttlnModPushButton, self.aBrgdFourthBattalion.currentText(), self.order_number)
 
     def a_the_add_bttln_mod_button_was_clicked(self):
+        """
+
+        :return: open window with bonuses list available for 1st auxiliary battalion of 1st line infantry brigade
+        """
+
         if self.aBrgdAdditionalBattalion.currentIndex() != 0:
             battalion_order = "Additional Battalion"
             self.order_number = 4  # пятый по порядку батальон
@@ -644,6 +740,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
             self.bttln_mod_button_was_clicked(battalion_order, self.a_brigade_number, self.aBrAddBttlnModPushButton, self.aBrgdAdditionalBattalion.currentText(), self.order_number)
 
     def a_the_jgr_add_bttln_mod_button_was_clicked(self):
+        """
+
+        :return: open window with bonuses list available for 2nd auxiliary battalion of 1st line infantry brigade
+        """
+
         if self.aBrgdJgrAdditionalBattalion.currentIndex() != 0:
             battalion_order = "Additional Battalion"
             self.order_number = 5  # шестой по порядку батальон
@@ -653,6 +754,11 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     # -------------------------------------------------------------------------------------------------------------------
     def b_brigade_bttln_Lists(self):
+        """
+
+        :return: collect information about second line infantry brigade GUI windows and call function show information
+         on GUI
+        """
         b_brgd_bttlns_list =[self.bBrgdFirstBattalion,
                              self.bBrgdSecondBattalion,
                              self.bBrgdThirdBattalion,
@@ -663,7 +769,14 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
         brigade_bttln_Lists(self.b_brigade_number, self.presenter, self.bBrgdCmndr, b_brgd_bttlns_list)
 
     # описание кнопок второй бригады
-    def bBrgdCommanderCostView(self, index):
+    def bBrgdCommanderCostView(self, index: int):
+        """
+
+        :param index: chosen commander index in the commanders list
+        :return: put first line infantry brigade commander cost to corresponding GUI text field, seal or unseal
+        battalions windows for choosing, put mandatory battalions for theirs places
+        """
+
         self.brgdCommanderCostView(index, self.b_brigade_number, self.bBrgdCmndrCost)
         self.bBrgdTotalCostView()
         if self.bBrgdCmndr.currentIndex() < 1:
@@ -2402,7 +2515,16 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
 
     #--------------------------------------------------------------------------------------------------------------------
 
-    def bttln_mod_button_was_clicked(self, battalion_order, brigade_number, mod_button_name, battalion_choosen_name, battalion_choosen_order):
+    def bttln_mod_button_was_clicked(self, battalion_order: str, brigade_number: int, mod_button_name, battalion_choosen_name: str, battalion_choosen_order: int):
+        """
+
+        :param battalion_order: battalion order in the brigade
+        :param brigade_number: brigade number in the division list
+        :param mod_button_name: QPushButton name in GUI
+        :param battalion_choosen_name: name of chosen battalion
+        :param battalion_choosen_order: chosen battalion order number in the brigade list
+        :return: open window with bonuses list available for current battalion
+        """
 
         self.current_bttln_name_choosen = battalion_choosen_name # имя батальона который был выбран при нажатии окна МОД
         self.current_bttln_order_choosen = battalion_choosen_order # порядновый номер батальона в бригаде, который был выбран при нажатии окна МОД
@@ -2468,7 +2590,7 @@ class RusDivisionWindow(QtWidgets.QMainWindow, Ui_RusDivisionWindow):
                 self.btln_bonus_list.append(self.presenter.BrigadeBonusNameList(self.brigade_number)[bonus_count])
                 self.btln_bonus_cost_list.append(self.presenter.BrigadeBonusCostList(self.brigade_number)[bonus_count])
 
-                apply_bonus_count +=1
+                apply_bonus_count += 1
 
         #закрываем оставшиеся ненужные строки
         for i in range (apply_bonus_count, len(self.bonuses_list_in_window)):
