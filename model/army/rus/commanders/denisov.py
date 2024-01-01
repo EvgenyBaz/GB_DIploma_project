@@ -1,4 +1,6 @@
 from model.army.basic_commander import BasicCommander
+
+
 class Denisov(BasicCommander):
     """Class describes commander Denisov stats """
     def __init__(self):
